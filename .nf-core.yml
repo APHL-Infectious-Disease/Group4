@@ -1,0 +1,61 @@
+repository_type: pipeline
+
+nf_core_version: 3.5.2
+
+lint:
+  files_unchanged:
+    - .prettierignore
+    - .prettierignore
+    - .prettierignore
+    - .prettierignore
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-gas_logo_light.png
+    - docs/images/nf-core-gas_logo_light.png
+    - docs/images/nf-core-gas_logo_dark.png
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/CONTRIBUTING.md
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - assets/email_template.txt
+    - docs/README.md
+  nextflow_config:
+    - manifest.name
+    - manifest.homePage
+  multiqc_config:
+    - report_comment
+  files_exist:
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
+    - .github/workflows/branch.yml
+    - .github/workflows/nf-test.yml
+    - .github/actions/get-shards/action.yml
+    - .github/actions/nf-test/action.yml
+    - .github/workflows/linting_comment.yml
+    - .github/workflows/linting.yml
+    - assets/email_template.html
+    - assets/sendmail_template.txt
+    - assets/email_template.txt
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-gas_logo_light.png
+    - docs/images/nf-core-gas_logo_light.png
+    - docs/images/nf-core-gas_logo_dark.png
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/workflows/awstest.yml
+    - .github/workflows/awsfulltest.yml
+
+template:
+  org: APHL
+  name: GAS
+  description: A group A strep analysis pipeline
+  author: Eva Gunawan, April Estrada
+  version: 1.0.0dev
+  force: true
+  outdir: Group4
+  skip_features:
+    - ci
+    - igenomes
+    - gpu
+    - rocrate
+    - email
+    - adaptivecard
+    - slackreport
+  is_nfcore: false
