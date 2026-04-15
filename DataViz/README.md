@@ -1,4 +1,4 @@
-# iGAS_Dashboard
+# GAS_Dashboard
 Fictional dashboard for Group A Strep Genomic survellance
 
 
