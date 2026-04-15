@@ -1,3 +1,4 @@
+FROM rocker/shiny:4.3.1
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     libcurl4-gnutls-dev libssl-dev libxml2-dev libxt-dev zlib1g-dev \
@@ -11,7 +12,7 @@ RUN R -e "BiocManager::install('ggtree')"
 
 # Setup directory
 RUN rm -rf /srv/shiny-server/*
-COPY app.R /srv/shiny-server/app.R
+COPY GAS_App.R /srv/shiny-server/GAS_App.R
 COPY Example_GAS_Genomic_Data.csv /srv/shiny-server/Example_GAS_Genomic_Data.csv
 COPY GAS_tree.nwk /srv/shiny-server/GAS_tree.nwk
 
