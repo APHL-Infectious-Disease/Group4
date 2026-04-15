@@ -1,0 +1,18 @@
+# Ignore R-specific local files
+.Rhistory
+.RData
+.Rproj.user
+.Rprofile
+
+# Ignore git data
+.git
+.gitignore
+
+# Ignore raw data or documents not needed for the dashboard
+*.xlsx
+*.docx
+*.pdf
+
+# Ignore Docker files themselves
+Dockerfile
+.dockerignore
