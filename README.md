@@ -13,10 +13,10 @@ https://github.com/BenJamesMetcalf/GAS_Scripts_Reference/tree/master
 https://github.com/BenJamesMetcalf/JanOw_Dependencies
 -bioinformatics pipeline for group A strep
 
+https://github.com/boasvdp/assembly_snptyper
+-snp analysis of S pyogenes using hypervirulent M1UK strain as the reference
 
-
-
-
-
+https://bacpop.org/poppunk-databases/
+-PopPUNK cluster analysis, S pyogenes database
 
 
