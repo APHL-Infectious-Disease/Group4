@@ -3,7 +3,15 @@
     IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { FASTQC                 } from '../modules/nf-core/fastqc/main'
+// Subworkflows
+include { INPUT_CHECK           } from '../subworkflows/local/input_check'
+include { PBP_EMM               } from '../subworkflows/local/pbp_emm'
+include { VIRULENCE_ANALYSIS    } from '../subworkflows/local/virulence'
+
+
+// Modules
+include { REJECTED_SAMPLES       } from '../modules/local/rejected_samples/rejected_samples'
+include { FASTP                  } from '../modules/local/fastp/fastp'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -16,27 +24,131 @@ include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_gas_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+// Containerize just the perl scripts
+
 workflow GAS {
 
     take:
     ch_samplesheet // channel: samplesheet read in from --input
+
     main:
+
+    if (params.input) {
+            ch_input = file(params.input)
+            }
+    else {
+        exit 1, 'Input samplesheet not specified!'
+        }
 
     ch_versions = channel.empty()
     ch_multiqc_files = channel.empty()
+
     //
-    // MODULE: Run FastQC
+    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
-    FASTQC (
-        ch_samplesheet
+    INPUT_CHECK (
+        ch_input
     )
-    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
-    ch_versions = ch_versions.mix(FASTQC.out.versions.first())
+
+    //
+    // Removing Empty Samples: set up to be healthomics compatible
+    //
+    INPUT_CHECK.out.reads
+        .branch{ meta, _file ->
+            single_end: meta.single_end
+            paired_end: !meta.single_end
+            }
+        .set{ ch_filtered }
+
+    ch_filtered.paired_end
+        .map{ meta, file ->
+            [meta, file, file[0].countFastq(), file[1].countFastq()]}
+        .branch{ _meta, _file, count1, count2 ->
+            pass: count1 > 0 && count2 > 0
+            fail: count1 == 0 || count2 == 0 || count1 == 0 && count2 == 0
+            }
+        .set{ ch_paired_end }
+
+    ch_paired_end.pass
+        .map { meta, file, _count1, _count2 ->
+            [meta, file]
+            }
+        .set{ ch_fully_filtered }
+
+    ch_paired_end.fail
+        .map { meta, _file, _count1, _count2 ->
+            [meta.id]
+            }
+        .set{ ch_paired_end_fail }
+
+    ch_paired_end_fail
+        .flatten()
+        .set{ ch_failed }
+
+    ch_failed
+        .ifEmpty{'NO_EMPTY_SAMPLES'}
+        .collectFile(
+                name: 'empty_samples.csv',
+                newLine: true
+            )
+        .set{ ch_rejected_file }
+
+    //
+    // Rejected samples modules, healthomics compatible
+    //
+    REJECTED_SAMPLES (
+        ch_rejected_file,
+        "GAS"
+    )
+
+    ch_fully_filtered
+        .branch { item ->
+            ntc: !!(item[0]['id'] =~ params.ntc_regex)
+            sample: true
+        }
+        .set{ ch_input_reads }
+
+    if (params.ntc_regex != null) {
+        ch_paired_end.fail
+            .map { meta, _file, _count1, _count2 ->
+                [meta.id]
+                }
+            .set{ ch_ntc_check }
+
+        ch_ntc_check
+            .branch { item ->
+                ntc: !!(item =~ params.ntc_regex)
+                sample: true
+                }
+            .set { ch_ntc_check }
+
+        ch_ntc_check.ntc
+            .collect()
+            .ifEmpty("Empty")
+            .set { ch_empty_ntc }
+        } else  {
+        ch_empty_ntc = channel.value("Empty")
+    }
+
+    //
+    // FASTP on raw reads
+    //
+    FASTP (
+        ch_input_reads
+        )
+    ch_versions = ch_versions.mix(FASTP.out.versions())
+
+    //
+    // SUBWORKFLOW: pbp and emm typing
+    //
+    PBP_EMM (
+        ch_input_reads
+    )
 
     //
     // Collate and save software versions
     //
-    def topic_versions = Channel.topic("versions")
+    def topic_versions = channel.topic("versions")
         .distinct()
         .branch { entry ->
             versions_file: entry instanceof Path
