@@ -72,10 +72,20 @@ ui <- dashboardPage(
       # Tab 3: Data Table
       tabItem(tabName = "data",
               box(DTOutput("raw_table"), width = 12, style = "overflow-x: scroll;")
+      ),
+      # Tab 4: multiqc report
+      tabItem(tabName = "qc_report",
+        tags$iframe(
+          src = "multiqc_report.html", 
+          width = "100%", 
+          height = "800px", 
+          scrolling = "yes", 
+          frameborder = 0
+  )
+),      
       )
     )
   )
-)
 
 server <- function(input, output) {
   # Reactive Tree Plot
