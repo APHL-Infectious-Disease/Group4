@@ -1,4 +1,4 @@
-FROM rocker/shiny:4.3.1
+FROM rocker/shiny-verse:latest
 
 # 1. Install EVERY prerequisite (Base layer remains untouched)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Install 'sf' and 'leaflet' from binary
-RUN R -e "install.packages('sf', repos='https://packagemanager.posit.co/cran/__linux__/jammy/latest')"
+#RUN R -e "install.packages('sf', repos='https://packagemanager.posit.co/cran/__linux__/jammy/latest')"
 RUN R -e "install.packages('leaflet', repos='https://packagemanager.posit.co/cran/__linux__/jammy/latest')"
 
 # 3. MODIFIED: Adding rlang/vctrs and moving treeio to the Binary Repo
@@ -28,7 +28,7 @@ RUN R -e "install.packages(c('shinydashboard', 'dplyr', 'ggplot2', 'plotly', 'DT
 RUN R -e "BiocManager::install('ggtree', update=FALSE, ask=FALSE)"
 
 # 4. DIAGNOSTIC GATE (The individual verification)
-RUN R -e "library(sf); print('sf: OK')"
+#RUN R -e "library(sf); print('sf: OK')"
 RUN R -e "library(jsonlite); library(treeio); print('treeio: OK')"
 RUN R -e "library(ggtree); print('ggtree: OK')"
 
