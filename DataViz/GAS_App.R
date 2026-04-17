@@ -9,6 +9,7 @@ library(DT)
 library(plotly)
 library(ggtree)
 library(ape)
+library(htmltools)
 
 # Load the fictional dataset
 data <- read.csv("Example_GAS_Genomic_Data.csv")
@@ -87,7 +88,7 @@ ui <- dashboardPage(
     )
   )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   # Reactive Tree Plot
   output$tree_plot <- renderPlot({
     # Join tree with metadata
