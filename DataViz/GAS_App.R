@@ -167,7 +167,7 @@ server <- function(input, output, session) {
 
   # Server
 output$multiqc_frame <- renderUI({
-  report_html <- readLines("path/to/multiqc_report.html", warn = FALSE)
+  report_html <- readLines("DataViz/www/multiqc_report.html", warn = FALSE)
   HTML(report_html)
 })
 }
