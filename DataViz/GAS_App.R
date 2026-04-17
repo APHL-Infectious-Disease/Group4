@@ -83,8 +83,10 @@ ui <- dashboardPage(
           scrolling = "yes", 
           frameborder = 0
   )
-),      
-      )
+), 
+      # UI
+htmlOutput("multiqc_frame")
+      ),
     )
   )
 
@@ -162,6 +164,12 @@ server <- function(input, output, session) {
   output$raw_table <- renderDT({
     datatable(filtered_data(), options = list(scrollX = TRUE, pageLength = 10))
   })
+
+  # Server
+output$multiqc_frame <- renderUI({
+  report_html <- readLines("path/to/multiqc_report.html", warn = FALSE)
+  HTML(report_html)
+})
 }
 
 shinyApp(ui, server)
