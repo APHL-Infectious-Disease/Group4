@@ -9,6 +9,7 @@ library(DT)
 library(plotly)
 library(ggtree)
 library(ape)
+library(htmltools)
 
 # Load the fictional dataset
 data <- read.csv("Example_GAS_Genomic_Data.csv")
@@ -74,20 +75,22 @@ ui <- dashboardPage(
               box(DTOutput("raw_table"), width = 12, style = "overflow-x: scroll;")
       ),
       # Tab 4: multiqc report
-      tabItem(tabName = "qc_report",
-        tags$iframe(
-          src = "multiqc_report.html", 
-          width = "100%", 
-          height = "800px", 
-          scrolling = "yes", 
-          frameborder = 0
-  )
-),      
-      )
+     # tabItem(tabName = "qc_report",
+     #   tags$iframe(
+     #     src = "multiqc_report.html", 
+     #     width = "100%", 
+     #     height = "800px", 
+     #     scrolling = "yes", 
+     #     frameborder = 0
+#  )
+#), 
+      # UI
+htmlOutput("multiqc_frame")
+      ),
     )
   )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   # Reactive Tree Plot
   output$tree_plot <- renderPlot({
     # Join tree with metadata
@@ -161,6 +164,12 @@ server <- function(input, output) {
   output$raw_table <- renderDT({
     datatable(filtered_data(), options = list(scrollX = TRUE, pageLength = 10))
   })
+
+  # Server
+output$multiqc_frame <- renderUI({
+  report_html <- readLines("path/to/multiqc_report.html", warn = FALSE)
+  HTML(report_html)
+})
 }
 
 shinyApp(ui, server)
