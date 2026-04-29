@@ -1,24 +1,24 @@
 #V4
 library(shiny)
 library(shinydashboard)
-library(dplyr)    # Replaces tidyverse for data manipulation
-library(ggplot2)  # Replaces tidyverse for plotting
-library(readr)    # Replaces tidyverse for reading CSV
+library(dplyr)
+library(ggplot2)
+library(readr)
 library(leaflet)
 library(DT)
 library(plotly)
 library(ggtree)
 library(ape)
-library(htmltools) # For multiqc reports
+library(htmltools)
 
-# Load the fictional dataset
-data <- read.csv("Example_GAS_Genomic_Data.csv")
+# --- Initial Data Load ---
+# These remain as the "default" state
+default_data <- read.csv("Example_GAS_Genomic_Data.csv")
 tree <- read.tree("GAS_tree.nwk")
-# Identify columns to use for the overview dropdown 
-# (Excluding ID and coordinate columns)
-genotypic_features <- names(data)[!names(data) %in% c("Sample", "Total_Bases", "N50", "Longest_Contig", "Contig_Num")]
-# HTML files 
+
+genotypic_features <- names(default_data)[!names(default_data) %in% c("Sample", "Total_Bases", "N50", "Longest_Contig", "Contig_Num")]
 report_files <- list.files("html_reports", pattern = "\\.html$", full.names = TRUE)
+
 ui <- dashboardPage(
   dashboardHeader(title = "Group A Strep Surveillance"),
   
@@ -28,37 +28,39 @@ ui <- dashboardPage(
       menuItem("Map Visualization", tabName = "map", icon = icon("map")),
       menuItem("Phylogeny", tabName = "phylo", icon = icon("tree")),
       menuItem("Genomic Data", tabName = "data", icon = icon("dna")),
-      menuItem("fastp_data", tabName = "QC", icon = icon("chart-bar))
+      menuItem("Fastp Data", tabName = "QC", icon = icon("chart-line")) # Fixed missing quote
     ),
     hr(),
-    # FEATURE SELECTION DROPDOWN
+    
+    # NEW: Drag and Drop File Input
+    fileInput("upload_csv", "Upload New Genomic CSV",
+              accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
+    
+    hr(),
     selectInput("selected_feature", "Select Genotypic Feature:", 
                 choices = genotypic_features, selected = "emm_Type"),
     
     selectInput("filter_region", "Filter by Galactic Region:", 
-                choices = c("All", unique(data$Region))),
+                choices = c("All", unique(default_data$Region))),
     
     checkboxGroupInput("filter_sir", "Filter by Penicillin SIR:",
-                       choices = unique(data$WGS_PEN_SIR),
-                       selected = unique(data$WGS_PEN_SIR)),
-
+                       choices = unique(default_data$WGS_PEN_SIR),
+                       selected = unique(default_data$WGS_PEN_SIR)),
+    
     selectInput("report", "Choose report", choices = basename(report_files))
   ),
   
   dashboardBody(
     tabItems(
-      # Tab 1: Dynamic Overview
       tabItem(tabName = "overview",
               fluidRow(
-                box(plotlyOutput("dynamic_plot"), width = 12, 
-                    title = textOutput("plot_title"))
+                box(plotlyOutput("dynamic_plot"), width = 12, title = textOutput("plot_title"))
               ),
               fluidRow(
                 valueBoxOutput("sample_count"),
                 valueBoxOutput("unique_st_count")
               )
       ),
-      # NEW PHYLOGENY TAB
       tabItem(tabName = "phylo",
               fluidRow(
                 box(plotOutput("tree_plot", height = "700px"), width = 9, title = "Phylogenetic Tree"),
@@ -68,51 +70,45 @@ ui <- dashboardPage(
                     checkboxInput("show_labels", "Show Sample IDs", value = TRUE))
               )
       ),
-      # Tab 2: Map
       tabItem(tabName = "map",
               box(leafletOutput("galactic_map", height = 500), width = 12, 
                   title = "Fictional Galactic Distribution")
       ),
-      
-      # Tab 3: Data Table
       tabItem(tabName = "data",
               box(DTOutput("raw_table"), width = 12, style = "overflow-x: scroll;")
       ),
-      # Tab 4: multiqc report
-     # tabItem(tabName = "qc_report",
-     #   tags$iframe(
-     #     src = "multiqc_report.html", 
-     #     width = "100%", 
-     #     height = "800px", 
-     #     scrolling = "yes", 
-     #     frameborder = 0
-#  )
-#), 
-      # UI
-# htmlOutput("multiqc_frame")
-  uiOutput("report_ui")
-      ),
+      tabItem(tabName = "QC",
+              uiOutput("report_ui")
+      )
     )
   )
+)
 
 server <- function(input, output, session) {
-  # Reactive Tree Plot
-  output$tree_plot <- renderPlot({
-    # Join tree with metadata
-    p <- ggtree(tree, layout = input$layout) %<+% data +
-      geom_tippoint(aes(color = !!sym(input$selected_feature)), size = 5) +
-      theme(legend.position = "right") +
-      labs(title = paste("Tree colored by", input$selected_feature))
+  
+  # 1. Store the data in a Reactive Value
+  # Starts with the default_data loaded at startup
+  dataset <- reactiveValues(main = default_data)
+  
+  # 2. Update logic for when a file is "dropped" into the app
+  observeEvent(input$upload_csv, {
+    req(input$upload_csv)
     
-    if (input$show_labels) {
-      p <- p + geom_tiplab(size = 3, offset = 0.005)
-    }
+    # Read the new file
+    new_df <- read.csv(input$upload_csv$datapath)
+    dataset$main <- new_df
     
-    p
+    # Update UI Inputs to match the new file's content
+    new_features <- names(new_df)[!names(new_df) %in% c("Sample", "Total_Bases", "N50", "Longest_Contig", "Contig_Num")]
+    updateSelectInput(session, "selected_feature", choices = new_features)
+    updateSelectInput(session, "filter_region", choices = c("All", unique(new_df$Region)))
+    updateCheckboxGroupInput(session, "filter_sir", choices = unique(new_df$WGS_PEN_SIR), 
+                             selected = unique(new_df$WGS_PEN_SIR))
   })
-  # Reactive data filtering
+  
+  # 3. Use the reactive dataset for filtering
   filtered_data <- reactive({
-    df <- data
+    df <- dataset$main
     if (input$filter_region != "All") {
       df <- df %>% filter(Region == input$filter_region)
     }
@@ -120,15 +116,27 @@ server <- function(input, output, session) {
     return(df)
   })
   
-  # Dynamic Title for the Plot
+  # --- Outputs (Now using filtered_data() which is reactive) ---
+  
+  output$tree_plot <- renderPlot({
+    # Join tree with metadata from the reactive dataframe
+    p <- ggtree(tree, layout = input$layout) %<+% dataset$main +
+      geom_tippoint(aes(color = !!sym(input$selected_feature)), size = 5) +
+      theme(legend.position = "right") +
+      labs(title = paste("Tree colored by", input$selected_feature))
+    
+    if (input$show_labels) {
+      p <- p + geom_tiplab(size = 3, offset = 0.005)
+    }
+    p
+  })
+  
   output$plot_title <- renderText({
     paste("Frequency Distribution of", input$selected_feature)
   })
   
-  # Dynamic Plot: Updates based on selected dropdown column
   output$dynamic_plot <- renderPlotly({
     req(input$selected_feature)
-    
     p <- filtered_data() %>%
       count(!!sym(input$selected_feature)) %>%
       ggplot(aes(x = reorder(!!sym(input$selected_feature), n), y = n, fill = !!sym(input$selected_feature))) +
@@ -137,23 +145,20 @@ server <- function(input, output, session) {
       theme_minimal() +
       theme(legend.position = "none") +
       labs(x = input$selected_feature, y = "Count")
-    
     ggplotly(p)
   })
   
-  # Dynamic Value Boxes
   output$sample_count <- renderValueBox({
     valueBox(nrow(filtered_data()), "Samples in View", icon = icon("vial"), color = "purple")
   })
   
   output$unique_st_count <- renderValueBox({
-    st_count <- length(unique(filtered_data()$ST))
-    valueBox(st_count, "Unique STs", icon = icon("fingerprint"), color = "blue")
+    # Ensure ST column exists in uploaded data
+    st_val <- if("ST" %in% names(filtered_data())) length(unique(filtered_data()$ST)) else 0
+    valueBox(st_val, "Unique STs", icon = icon("fingerprint"), color = "blue")
   })
   
-  # Map Visualization
   output$galactic_map <- renderLeaflet({
-    # Generating consistent random coords for the fictional planets
     set.seed(42)
     map_df <- filtered_data() %>%
       mutate(lat = runif(n(), -20, 20), lng = runif(n(), -20, 20))
@@ -161,24 +166,20 @@ server <- function(input, output, session) {
     leaflet(map_df) %>%
       addProviderTiles(providers$CartoDB.DarkMatter) %>%
       addCircleMarkers(~lng, ~lat, 
-                       popup = ~paste("Sample:", Sample, "<br>Planet:", Planet, "<br>ST:", ST),
+                       popup = ~paste("Sample:", Sample),
                        color = "cyan", radius = 8, fillOpacity = 0.7)
   })
   
-  # Data Table
   output$raw_table <- renderDT({
     datatable(filtered_data(), options = list(scrollX = TRUE, pageLength = 10))
   })
-
-  # Server
-# output$multiqc_frame <- renderUI({
- # report_html <- readLines("DataViz/www/multiqc_report.html", warn = FALSE)
- # HTML(report_html)
- output$report_ui <- renderUI({
+  
+  output$report_ui <- renderUI({
     req(input$report)
-    file <- file.path("DataViz/www/.html$", input$report)
-    HTML(includeHTML(file))
-})
+    # Note: Ensure the file path logic matches your local folder structure
+    file <- file.path("html_reports", input$report)
+    includeHTML(file)
+  })
 }
 
 shinyApp(ui, server)
