@@ -1,6 +1,6 @@
 process IQTREE {
 
-    label 'process_medium'
+    label 'process_low'
 
     conda "${moduleDir}/environment.yml"
     container "staphb/iqtree2:2.3.4"

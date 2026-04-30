@@ -1,6 +1,6 @@
 process MLST {
   tag           "${meta.id}"
-  label         "process_medium"
+  label         "process_low"
   container     'staphb/mlst:2.32.2'
 
   input:

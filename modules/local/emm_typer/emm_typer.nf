@@ -1,6 +1,6 @@
 process EMM_TYPER {
   tag           "${meta.id}"
-  label         "process_medium"
+  label         "process_low"
   container     'staphb/emmtyper:0.2.0'
 
   input:

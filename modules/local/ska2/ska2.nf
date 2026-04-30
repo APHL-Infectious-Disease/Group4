@@ -1,6 +1,6 @@
 process SKA2 {
     tag           "SKA alignment"
-    label         "process_medium"
+    label         "process_low"
     container     'staphb/ska2:0.5.1'
 
     input:
