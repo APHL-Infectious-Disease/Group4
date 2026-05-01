@@ -1,0 +1,5 @@
+sample,fastq_1,fastq_2
+SRR5858397,/workspaces/Group4/assets/dataset1/SRR5858397_1.fastq.gz,/workspaces/Group4/assets/dataset1/SRR5858397_2.fastq.gz
+SRR5858317,/workspaces/Group4/assets/dataset1/SRR5858317_1.fastq.gz,/workspaces/Group4/assets/dataset1/SRR5858317_2.fastq.gz
+SRR5853462,/workspaces/Group4/assets/dataset1/SRR5853462_1.fastq.gz,/workspaces/Group4/assets/dataset1/SRR5853462_2.fastq.gz
+SRR5853792,/workspaces/Group4/assets/dataset1/SRR5853792_1.fastq.gz,/workspaces/Group4/assets/dataset1/SRR5853792_2.fastq.gz
