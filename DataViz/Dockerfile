@@ -17,6 +17,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libfribidi-dev \
     libtiff-dev \
     libnode-dev \
+    pandoc \
+    texlive-latex-base \
+    texlive-fonts-recommended \
+    texlive-latex-extra \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Install 'sf' and 'leaflet' from binary
@@ -33,10 +37,22 @@ RUN R -e "library(jsonlite); library(treeio); print('treeio: OK')"
 RUN R -e "library(ggtree); print('ggtree: OK')"
 
 # 5. Setup directory
+# --- SETUP DIRECTORY ---
+# 1. Clean the default Shiny server folder
 RUN rm -rf /srv/shiny-server/*
+
+# 2. Copy the main app files
 COPY GAS_App.R /srv/shiny-server/GAS_App.R
+COPY report_template.Rmd /srv/shiny-server/report_template.Rmd
 COPY Example_GAS_Genomic_Data.csv /srv/shiny-server/Example_GAS_Genomic_Data.csv
 COPY GAS_tree.nwk /srv/shiny-server/GAS_tree.nwk
+
+# 3. Copy the subfolders
+COPY html_reports /srv/shiny-server/html_reports
+COPY sample_pdfs /srv/shiny-server/sample_pdfs
+
+# 4. Set the working directory so R finds the files locally
+WORKDIR /srv/shiny-server/
 
 WORKDIR /srv/shiny-server/
 EXPOSE 3838
