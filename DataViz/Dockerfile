@@ -49,7 +49,7 @@ COPY GAS_tree.nwk /srv/shiny-server/GAS_tree.nwk
 
 # 3. Copy the subfolders
 COPY html_reports /srv/shiny-server/html_reports
-COPY sample_pdfs /srv/shiny-server/sample_pdfs
+#COPY sample_pdfs /srv/shiny-server/sample_pdfs
 
 # 4. Set the working directory so R finds the files locally
 WORKDIR /srv/shiny-server/
