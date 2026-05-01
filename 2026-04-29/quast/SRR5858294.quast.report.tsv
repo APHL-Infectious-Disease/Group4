@@ -1,0 +1,23 @@
+Assembly	SRR5858294.contigs
+# contigs (>= 0 bp)	19
+# contigs (>= 1000 bp)	18
+# contigs (>= 5000 bp)	14
+# contigs (>= 10000 bp)	14
+# contigs (>= 25000 bp)	12
+# contigs (>= 50000 bp)	11
+Total length (>= 0 bp)	1795667
+Total length (>= 1000 bp)	1794999
+Total length (>= 5000 bp)	1786082
+Total length (>= 10000 bp)	1786082
+Total length (>= 25000 bp)	1763435
+Total length (>= 50000 bp)	1726982
+# contigs	19
+Largest contig	478130
+Total length	1795667
+GC (%)	38.37
+N50	221337
+N90	65952
+auN	246544.3
+L50	3
+L90	9
+# N's per 100 kbp	0.00

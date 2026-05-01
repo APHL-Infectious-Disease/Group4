@@ -1,0 +1,14 @@
+0
+SRR5858397.contigs.fa.ref,Len:1791592,GC:38.3616
+SRR5858397.contigs.fa,Len:1800582,GC:38.3616
+SRR5858294.contigs.fa,Len:1801247,GC:38.3704
+SRR5858317.contigs.fa,Len:1801466,GC:38.3578
+SRR5853462.contigs.fa,Len:1782727,GC:38.3786
+        Finished processing input sequences, elapsed time: 1 seconds
+
+                 Compressed suffix graph construction elapsed time: 0 seconds
+
+./parsnp_output
+./parsnp_output/all.mumi
+                 MUMi pairwise distance calculation finished: 5 seconds
+

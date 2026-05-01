@@ -1,0 +1,56 @@
+Number of sequences analyzed:         5
+
+Sequence 1 : ./parsnp_output/SRR5858397.contigs.fa.ref
+SRR5858397.contigs.fa.ref
+Length:   1791592 bps
+ GC:  687283.0
+ AT: 1104309.0
+Sequence 2 : SRR5858397.contigs.fa
+SRR5858397.contigs.fa
+Length:   1791592 bps
+ GC:  687283.0
+ AT: 1104309.0
+Sequence 3 : SRR5858294.contigs.fa
+SRR5858294.contigs.fa
+Length:   1795667 bps
+ GC:  689004.0
+ AT: 1106663.0
+Sequence 4 : SRR5858317.contigs.fa
+SRR5858317.contigs.fa
+Length:   1792476 bps
+ GC:  687554.0
+ AT: 1104922.0
+Sequence 5 : SRR5853462.contigs.fa
+SRR5853462.contigs.fa
+Length:   1776527 bps
+ GC:  681807.0
+ AT: 1094720.0
+d value:   300
+q value:   30
+
+Mum anchor size:   23.0
+Number of MUM anchors found:   11482
+Number of MUMs found:   1312
+Total MUMs found((Anchors+MUMs)-filtered):   12409
+
+Random MUM length:   1 
+Minimum Cluster length:   21
+Number of MUMs filtered:   385
+Number of Clusters filtered:   384
+
+Number of clusters created:   407
+Average number of MUMs per cluster:   30
+Average cluster length:   3906 bps
+Cluster coverage in sequence 1:   88.7%
+Cluster coverage in sequence 2:   88.7%
+Cluster coverage in sequence 3:   88.5%
+Cluster coverage in sequence 4:   88.7%
+Cluster coverage in sequence 5:   89.5%
+Total coverage among all sequences:   88.8%
+
+ MUM anchor search elapsed time:   3.0s 
+ MUM coarsening elapsed time:   1.0s 
+ MUM filtering elapsed time:   0.0s 
+ MUM clustering elapsed time:   0.0s 
+ Inter-clustering elapsed time:   0.0s 
+ Total running time:   4.0s 
