@@ -49,6 +49,12 @@ nextflow run APHL/gas \
    --outdir <OUTDIR>
 ```
 
+To run the pipeline on dataset1:
+1. Open codespaces
+2. conda create --name nextflow -c bioconda nextflow
+3. conda activate nextflow
+4. nextflow run main.nf -profile docker --input assets/dataset1/samplesheet.csv --outdir {OUTDIR}
+
 > [!WARNING]
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
 
