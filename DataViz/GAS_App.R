@@ -19,7 +19,7 @@ default_tree <- read.tree("GAS_tree.nwk")
 
 # Resource Paths: Tells Shiny where to find subfolders inside the Docker container
 addResourcePath("html_reports", "html_reports")
-addResourcePath("sample_pdfs", "sample_pdfs")
+#addResourcePath("sample_pdfs", "sample_pdfs")
 
 # Identify columns to use for the dropdown (excluding ID/QC metrics)
 get_features <- function(df) {
