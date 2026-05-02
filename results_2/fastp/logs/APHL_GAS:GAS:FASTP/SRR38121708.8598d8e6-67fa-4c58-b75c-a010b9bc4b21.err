@@ -1,0 +1,52 @@
+Detecting adapter sequence for read1...
+No adapter detected for read1
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+Read1 before filtering:
+total reads: 288373
+total bases: 39843002
+Q20 bases: 39626051(99.4555%)
+Q30 bases: 38663313(97.0392%)
+Q40 bases: 0(0%)
+
+Read2 before filtering:
+total reads: 288373
+total bases: 39850359
+Q20 bases: 39498223(99.1164%)
+Q30 bases: 38480196(96.5617%)
+Q40 bases: 0(0%)
+
+Read1 after filtering:
+total reads: 276663
+total bases: 39037077
+Q20 bases: 38894505(99.6348%)
+Q30 bases: 38048917(97.4687%)
+Q40 bases: 0(0%)
+
+Read2 after filtering:
+total reads: 276663
+total bases: 39000103
+Q20 bases: 38804066(99.4973%)
+Q30 bases: 37936638(97.2732%)
+Q40 bases: 0(0%)
+
+Filtering result:
+reads passed filter: 553326
+reads failed due to low quality: 2746
+reads failed due to too many N: 0
+reads failed due to too short: 20674
+reads failed due to adapter dimer: 0
+reads with adapter trimmed: 770
+bases trimmed due to adapters: 11094
+
+Duplication rate: 6.55817%
+
+Insert size peak (evaluated by paired-end reads): 44
+
+JSON report: fastp/SRR38121708_fastp.json
+HTML report: fastp/SRR38121708_fastp.html
+
+fastp --detect_adapter_for_pe -i 2145570_S23_L001_R1_001.fastq.gz -I 2145570_S23_L001_R2_001.fastq.gz -o fastp/SRR38121708_fastp_R1.fastq.gz -O fastp/SRR38121708_fastp_R2.fastq.gz --unpaired1 SRR38121708_1U.fastq.gz --unpaired2 SRR38121708_2U.fastq.gz --detect_adapter_for_pe -g -5 20 -3 20 --length_required 50 -h fastp/SRR38121708_fastp.html -j fastp/SRR38121708_fastp.json 
+fastp v1.1.0, time used: 55 seconds

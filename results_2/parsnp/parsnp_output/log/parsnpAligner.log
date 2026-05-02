@@ -1,0 +1,278 @@
+Number of sequences analyzed:        42
+
+Sequence 1 : ./parsnp_output/SRR38287114.contigs.fa.ref
+SRR38287114.contigs.fa.ref
+Length:   1761725 bps
+ GC:  678417.0
+ AT: 1083308.0
+Sequence 2 : SRR38121706.contigs.fa
+SRR38121706.contigs.fa
+Length:   1778277 bps
+ GC:  678701.0
+ AT: 1099576.0
+Sequence 3 : SRR38121698.contigs.fa
+SRR38121698.contigs.fa
+Length:   1764318 bps
+ GC:  678158.0
+ AT: 1086160.0
+Sequence 4 : SRR38121707.contigs.fa
+SRR38121707.contigs.fa
+Length:   1811251 bps
+ GC:  689347.0
+ AT: 1121904.0
+Sequence 5 : SRR38287103.contigs.fa
+SRR38287103.contigs.fa
+Length:   1886315 bps
+ GC:  719958.0
+ AT: 1166357.0
+Sequence 6 : SRR38287114.contigs.fa
+SRR38287114.contigs.fa
+Length:   1761725 bps
+ GC:  678417.0
+ AT: 1083308.0
+Sequence 7 : SRR38121715.contigs.fa
+SRR38121715.contigs.fa
+Length:   1818920 bps
+ GC:  696678.0
+ AT: 1122242.0
+Sequence 8 : SRR38287116.contigs.fa
+SRR38287116.contigs.fa
+Length:   1861542 bps
+ GC:  709637.0
+ AT: 1151905.0
+Sequence 9 : SRR38287102.contigs.fa
+SRR38287102.contigs.fa
+Length:   1849234 bps
+ GC:  706309.0
+ AT: 1142925.0
+Sequence 10 : SRR38121699.contigs.fa
+SRR38121699.contigs.fa
+Length:   1822836 bps
+ GC:  698277.0
+ AT: 1124559.0
+Sequence 11 : SRR38287110.contigs.fa
+SRR38287110.contigs.fa
+Length:   1778929 bps
+ GC:  678949.0
+ AT: 1099980.0
+Sequence 12 : SRR38198055.contigs.fa
+SRR38198055.contigs.fa
+Length:   1714472 bps
+ GC:  657505.0
+ AT: 1056967.0
+Sequence 13 : SRR38121708.contigs.fa
+SRR38121708.contigs.fa
+Length:   1786379 bps
+ GC:  684998.0
+ AT: 1101381.0
+Sequence 14 : SRR38287106.contigs.fa
+SRR38287106.contigs.fa
+Length:   1751033 bps
+ GC:  671891.0
+ AT: 1079142.0
+Sequence 15 : SRR38198054.contigs.fa
+SRR38198054.contigs.fa
+Length:   1819656 bps
+ GC:  698702.0
+ AT: 1120954.0
+Sequence 16 : SRR38121709.contigs.fa
+SRR38121709.contigs.fa
+Length:   1738877 bps
+ GC:  666458.0
+ AT: 1072419.0
+Sequence 17 : SRR38287101.contigs.fa
+SRR38287101.contigs.fa
+Length:   1749981 bps
+ GC:  671491.0
+ AT: 1078490.0
+Sequence 18 : SRR38287112.contigs.fa
+SRR38287112.contigs.fa
+Length:   1752755 bps
+ GC:  671490.0
+ AT: 1081265.0
+Sequence 19 : SRR38287113.contigs.fa
+SRR38287113.contigs.fa
+Length:   1729913 bps
+ GC:  664110.0
+ AT: 1065803.0
+Sequence 20 : SRR38287109.contigs.fa
+SRR38287109.contigs.fa
+Length:   1822266 bps
+ GC:  698099.0
+ AT: 1124167.0
+Sequence 21 : SRR38121710.contigs.fa
+SRR38121710.contigs.fa
+Length:   1851697 bps
+ GC:  709533.0
+ AT: 1142164.0
+Sequence 22 : SRR38287100.contigs.fa
+SRR38287100.contigs.fa
+Length:   1736835 bps
+ GC:  666439.0
+ AT: 1070396.0
+Sequence 23 : SRR38198053.contigs.fa
+SRR38198053.contigs.fa
+Length:   1821388 bps
+ GC:  697690.0
+ AT: 1123698.0
+Sequence 24 : SRR38287105.contigs.fa
+SRR38287105.contigs.fa
+Length:   1815368 bps
+ GC:  692888.0
+ AT: 1122480.0
+Sequence 25 : SRR38287115.contigs.fa
+SRR38287115.contigs.fa
+Length:   1753872 bps
+ GC:  672043.0
+ AT: 1081829.0
+Sequence 26 : SRR38287107.contigs.fa
+SRR38287107.contigs.fa
+Length:   1754818 bps
+ GC:  672481.0
+ AT: 1082337.0
+Sequence 27 : SRR38198052.contigs.fa
+SRR38198052.contigs.fa
+Length:   1859566 bps
+ GC:  708820.0
+ AT: 1150746.0
+Sequence 28 : SRR38121713.contigs.fa
+SRR38121713.contigs.fa
+Length:   1819840 bps
+ GC:  697061.0
+ AT: 1122779.0
+Sequence 29 : SRR38287117.contigs.fa
+SRR38287117.contigs.fa
+Length:   1816522 bps
+ GC:  693384.0
+ AT: 1123138.0
+Sequence 30 : SRR38287111.contigs.fa
+SRR38287111.contigs.fa
+Length:   1707828 bps
+ GC:  655377.0
+ AT: 1052451.0
+Sequence 31 : SRR38287108.contigs.fa
+SRR38287108.contigs.fa
+Length:   1812468 bps
+ GC:  689872.0
+ AT: 1122596.0
+Sequence 32 : SRR38121695.contigs.fa
+SRR38121695.contigs.fa
+Length:   1914557 bps
+ GC:  734078.0
+ AT: 1180479.0
+Sequence 33 : SRR38121697.contigs.fa
+SRR38121697.contigs.fa
+Length:   1746844 bps
+ GC:  669723.0
+ AT: 1077121.0
+Sequence 34 : SRR38287104.contigs.fa
+SRR38287104.contigs.fa
+Length:   1749829 bps
+ GC:  671421.0
+ AT: 1078408.0
+Sequence 35 : SRR38121700.contigs.fa
+SRR38121700.contigs.fa
+Length:   1886847 bps
+ GC:  719608.0
+ AT: 1167239.0
+Sequence 36 : SRR38121702.contigs.fa
+SRR38121702.contigs.fa
+Length:   1857196 bps
+ GC:  709129.0
+ AT: 1148067.0
+Sequence 37 : SRR38121704.contigs.fa
+SRR38121704.contigs.fa
+Length:   1796244 bps
+ GC:  689292.0
+ AT: 1106952.0
+Sequence 38 : SRR38121711.contigs.fa
+SRR38121711.contigs.fa
+Length:   1713337 bps
+ GC:  656969.0
+ AT: 1056368.0
+Sequence 39 : SRR38121712.contigs.fa
+SRR38121712.contigs.fa
+Length:   1838508 bps
+ GC:  702151.0
+ AT: 1136357.0
+Sequence 40 : SRR38121714.contigs.fa
+SRR38121714.contigs.fa
+Length:   1836331 bps
+ GC:  703585.0
+ AT: 1132746.0
+Sequence 41 : SRR38121696.contigs.fa
+SRR38121696.contigs.fa
+Length:   1712181 bps
+ GC:  656496.0
+ AT: 1055685.0
+Sequence 42 : SRR38121703.contigs.fa
+SRR38121703.contigs.fa
+Length:   1853837 bps
+ GC:  712538.0
+ AT: 1141299.0
+d value:   300
+q value:   30
+
+Mum anchor size:   23.0
+Number of MUM anchors found:   18560
+Number of MUMs found:   980
+Total MUMs found((Anchors+MUMs)-filtered):   19222
+
+Random MUM length:   1 
+Minimum Cluster length:   21
+Number of MUMs filtered:   318
+Number of Clusters filtered:   316
+
+Number of clusters created:   585
+Average number of MUMs per cluster:   32
+Average cluster length:   2499 bps
+Cluster coverage in sequence 1:   83.0%
+Cluster coverage in sequence 2:   82.2%
+Cluster coverage in sequence 3:   82.9%
+Cluster coverage in sequence 4:   80.7%
+Cluster coverage in sequence 5:   77.5%
+Cluster coverage in sequence 6:   83.0%
+Cluster coverage in sequence 7:   80.4%
+Cluster coverage in sequence 8:   78.6%
+Cluster coverage in sequence 9:   79.1%
+Cluster coverage in sequence 10:   80.2%
+Cluster coverage in sequence 11:   82.2%
+Cluster coverage in sequence 12:   85.3%
+Cluster coverage in sequence 13:   81.9%
+Cluster coverage in sequence 14:   83.5%
+Cluster coverage in sequence 15:   80.4%
+Cluster coverage in sequence 16:   84.1%
+Cluster coverage in sequence 17:   83.6%
+Cluster coverage in sequence 18:   83.4%
+Cluster coverage in sequence 19:   84.5%
+Cluster coverage in sequence 20:   80.2%
+Cluster coverage in sequence 21:   79.0%
+Cluster coverage in sequence 22:   84.2%
+Cluster coverage in sequence 23:   80.3%
+Cluster coverage in sequence 24:   80.6%
+Cluster coverage in sequence 25:   83.4%
+Cluster coverage in sequence 26:   83.3%
+Cluster coverage in sequence 27:   78.6%
+Cluster coverage in sequence 28:   80.4%
+Cluster coverage in sequence 29:   80.5%
+Cluster coverage in sequence 30:   85.6%
+Cluster coverage in sequence 31:   80.7%
+Cluster coverage in sequence 32:   76.4%
+Cluster coverage in sequence 33:   83.7%
+Cluster coverage in sequence 34:   83.6%
+Cluster coverage in sequence 35:   77.5%
+Cluster coverage in sequence 36:   78.7%
+Cluster coverage in sequence 37:   81.4%
+Cluster coverage in sequence 38:   85.3%
+Cluster coverage in sequence 39:   79.5%
+Cluster coverage in sequence 40:   79.6%
+Cluster coverage in sequence 41:   85.4%
+Cluster coverage in sequence 42:   78.9%
+Total coverage among all sequences:   81.4%
+
+ MUM anchor search elapsed time:   17.0s 
+ MUM coarsening elapsed time:   1.0s 
+ MUM filtering elapsed time:   1.0s 
+ MUM clustering elapsed time:   0.0s 
+ Inter-clustering elapsed time:   0.0s 
+ Total running time:   19.0s 

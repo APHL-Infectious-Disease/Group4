@@ -1,0 +1,886 @@
+[shovill] Hello stranger
+[shovill] You ran: /shovill/shovill-1.1.0/bin/shovill --R1 2141517_S8_L001_R1_001.fastq.gz --R2 2141517_S8_L001_R2_001.fastq.gz --minlen 500 --gsize 1800000 --mincov 10.0 --assembler skesa --cpus 6 --ram 36 --outdir ./SRR38121698_shovill_output --force
+[shovill] This is shovill 1.1.0
+[shovill] Written by Torsten Seemann
+[shovill] Homepage is https://github.com/tseemann/shovill
+[shovill] Operating system is linux
+[shovill] Perl version is v5.22.1
+[shovill] Machine has 112 CPU cores and 503.32 GB RAM
+[shovill] Using bwa - /bwa/bwa-0.7.17/bwa | Version: 0.7.17-r1188
+[shovill] Using flash - /flash/FLASH-1.2.11/flash | FLASH v1.2.11
+[shovill] Using java - /usr/bin/java | openjdk version "9-internal"
+[shovill] Using kmc - /kmc/kmc | K-Mer Counter (KMC) ver. 3.1.1 (2019-05-19)
+[shovill] Using lighter - /Lighter-1.1.1/lighter | Lighter v1.1.1
+[shovill] Using megahit - /megahit/megahit_v1.1.4_LINUX_CPUONLY_x86_64-bin/megahit | MEGAHIT v1.1.3
+[shovill] Using megahit_toolkit - /megahit/megahit_v1.1.4_LINUX_CPUONLY_x86_64-bin/megahit_toolkit | v1.1.3
+[shovill] Using pigz - /usr/bin/pigz | pigz 2.3.1
+[shovill] Using pilon - /pilon/pilon | Pilon version 1.22 Wed Mar 15 16:38:30 2017 -0400
+[shovill] Using samclip - /samclip/samclip | samclip 0.4.0
+[shovill] Using samtools - /usr/local/bin/samtools | Version: 1.10 (using htslib 1.10)
+[shovill] Using seqtk - /usr/local/bin/seqtk | Version: 1.3-r106
+[shovill] Using skesa - /skesa/skesa | SKESA v.2.3.0
+[shovill] Using spades.py - /SPAdes-3.14.1-Linux/bin/spades.py | SPAdes genome assembler v3.14.1
+[shovill] Using trimmomatic - /trimmomatic/trimmomatic | 0.38
+[shovill] Using velvetg - /velvet/velvet-1.2.10/velvetg | Version 1.2.10
+[shovill] Using velveth - /velvet/velvet-1.2.10/velveth | Version 1.2.10
+[shovill] Found spades version: 003014000
+[shovill] Using tempdir: /tmp/Sh5Urwa4CN
+[shovill] Changing into folder: /Volumes/NGS_2/Bioinformatics/eriny/aphl_hackathon_2026/work/5c/012ab9ecfafeb4aa99328745ae5e19/SRR38121698_shovill_output
+[shovill] Collecting raw read statistics with 'seqtk'
+[shovill] Running: seqtk fqchk -q3 \/Volumes\/NGS_2\/pulsenet_and_arln\/UT\-SH00281\-260409\/reads\/2141517_S8_L001_R1_001\.fastq\.gz >/tmp/asuZWNPnIv 2>&1 | sed 's/^/[seqtk] /' | tee -a shovill.log
+[shovill] Read stats: max_len = 151
+[shovill] Read stats: total_bp = 144367816
+[shovill] Read stats: avg_len = 141
+[shovill] Read stats: min_len = 35
+[shovill] Using genome size 1800000 bp
+[shovill] Estimated sequencing depth: 80 x
+[shovill] No read depth reduction requested or necessary.
+[shovill] Appending -Xmx36g to _JAVA_OPTIONS
+[shovill] Running: ln -sf \/Volumes\/NGS_2\/pulsenet_and_arln\/UT\-SH00281\-260409\/reads\/2141517_S8_L001_R1_001\.fastq\.gz R1.fq.gz 2>&1 | sed 's/^/[ln] /' | tee -a shovill.log
+[shovill] Running: ln -sf \/Volumes\/NGS_2\/pulsenet_and_arln\/UT\-SH00281\-260409\/reads\/2141517_S8_L001_R2_001\.fastq\.gz R2.fq.gz 2>&1 | sed 's/^/[ln] /' | tee -a shovill.log
+[shovill] Average read length looks like 141 bp
+[shovill] Setting k-mer range to (31 .. 105)
+[shovill] Estimated K-mers: 31 49 67 85 103 [kn=5, ks=18, kmin=31, kmax=105]
+[shovill] Using kmers: 31,49,67,85,103
+[shovill] Correcting reads with 'Lighter'
+[shovill] Running: lighter -od . -r R1.fq.gz -r R2.fq.gz -K 32 1800000 -t 6 -maxcor 1 2>&1 | sed 's/^/[lighter] /' | tee -a shovill.log
+[lighter] [2026-05-01 18:24:30] =============Start====================
+[lighter] [2026-05-01 18:24:30] Scanning the input files to infer alpha(sampling rate)
+[lighter] [2026-05-01 18:24:32] Average coverage is 80.208 and alpha is 0.087
+[lighter] [2026-05-01 18:24:34] Bad quality threshold is "7"
+[lighter] [2026-05-01 18:24:36] Finish sampling kmers
+[lighter] [2026-05-01 18:24:36] Bloom filter A's false positive rate: 0.002581
+[lighter] [2026-05-01 18:24:40] Finish storing trusted kmers
+[lighter] [2026-05-01 18:24:44] Finish error correction
+[lighter] Processed 1021784 reads:
+[lighter] 	957339 are error-free
+[lighter] 	Corrected 76691 bases(1.190022 corrections for reads with errors)
+[lighter] 	Trimmed 0 reads with average trimmed bases 0.000000
+[lighter] 	Discard 0 reads
+[shovill] Overlapping/stitching PE reads with 'FLASH'
+[shovill] Running: flash -m 20 -M 151 -d . -o flash -z -t 6 R1.cor.fq.gz R2.cor.fq.gz 2>&1 | sed 's/^//' | tee -a shovill.log
+[FLASH] Starting FLASH v1.2.11
+[FLASH] Fast Length Adjustment of SHort reads
+[FLASH]  
+[FLASH] Input files:
+[FLASH]     R1.cor.fq.gz
+[FLASH]     R2.cor.fq.gz
+[FLASH]  
+[FLASH] Output files:
+[FLASH]     ./flash.extendedFrags.fastq.gz
+[FLASH]     ./flash.notCombined_1.fastq.gz
+[FLASH]     ./flash.notCombined_2.fastq.gz
+[FLASH]     ./flash.hist
+[FLASH]     ./flash.histogram
+[FLASH]  
+[FLASH] Parameters:
+[FLASH]     Min overlap:           20
+[FLASH]     Max overlap:           151
+[FLASH]     Max mismatch density:  0.250000
+[FLASH]     Allow "outie" pairs:   false
+[FLASH]     Cap mismatch quals:    false
+[FLASH]     Combiner threads:      6
+[FLASH]     Input format:          FASTQ, phred_offset=33
+[FLASH]     Output format:         FASTQ, phred_offset=33, gzip
+[FLASH]  
+[FLASH] Starting reader and writer threads
+[FLASH] Starting 6 combiner threads
+[FLASH] Processed 25000 read pairs
+[FLASH] Processed 50000 read pairs
+[FLASH] Processed 75000 read pairs
+[FLASH] Processed 100000 read pairs
+[FLASH] Processed 125000 read pairs
+[FLASH] Processed 150000 read pairs
+[FLASH] Processed 175000 read pairs
+[FLASH] Processed 200000 read pairs
+[FLASH] Processed 225000 read pairs
+[FLASH] Processed 250000 read pairs
+[FLASH] Processed 275000 read pairs
+[FLASH] Processed 300000 read pairs
+[FLASH] Processed 325000 read pairs
+[FLASH] Processed 350000 read pairs
+[FLASH] Processed 375000 read pairs
+[FLASH] Processed 400000 read pairs
+[FLASH] Processed 425000 read pairs
+[FLASH] Processed 450000 read pairs
+[FLASH] Processed 475000 read pairs
+[FLASH] Processed 500000 read pairs
+[FLASH] Processed 510892 read pairs
+[FLASH]  
+[FLASH] Read combination statistics:
+[FLASH]     Total pairs:      510892
+[FLASH]     Combined pairs:   161248
+[FLASH]     Uncombined pairs: 349644
+[FLASH]     Percent combined: 31.56%
+[FLASH]  
+[FLASH] Writing histogram files.
+[FLASH]  
+[FLASH] FLASH v1.2.11 complete!
+[FLASH] 9.583 seconds elapsed
+[shovill] Assembling reads with 'skesa'
+[shovill] Running: skesa --gz  --fastq flash.extendedFrags.fastq.gz --fastq flash.notCombined_1.fastq.gz,flash.notCombined_2.fastq.gz --use_paired_ends --contigs_out skesa.fasta --min_contig 1 --memory 36 --cores 6 --vector_percent 1 2>&1 | sed 's/^/[skesa] /' | tee -a shovill.log
+[skesa] skesa --gz --fastq flash.extendedFrags.fastq.gz --fastq flash.notCombined_1.fastq.gz,flash.notCombined_2.fastq.gz --use_paired_ends --contigs_out skesa.fasta --min_contig 1 --memory 36 --cores 6 --vector_percent 1 
+[skesa] 
+[skesa] WARNING: option --gz is deprecated - gzipped files are now recognized automatically
+[skesa] Total mates: 860536 Paired reads: 349644
+[skesa] Reads acquired in  6.825958s wall, 6.500000s user + 0.080000s system = 6.580000s CPU (96.4%)
+[skesa] Adapters clip is disabled
+[skesa] 
+[skesa] Kmer len: 21
+[skesa] Raw kmers: 113004228 Memory needed (GB): 2.16968 Memory available (GB): 33.9351 1 cycle(s) will be performed
+[skesa] Distinct kmers: 1763779
+[skesa] Kmer count in  4.242798s wall, 21.800000s user + 2.010000s system = 23.810000s CPU (561.2%)
+[skesa] Uniq kmers merging in  0.063941s wall, 0.100000s user + 0.030000s system = 0.130000s CPU (203.3%)
+[skesa] Kmers branching in  0.693499s wall, 3.220000s user + 0.000000s system = 3.220000s CPU (464.3%)
+[skesa] 
+[skesa] Average read length: 151
+[skesa] Genome size estimate: 1517561
+[skesa] 
+[skesa] Kmer: 21 Graph size: 1763779 Contigs in: 0
+[skesa] Valley: 18
+[skesa] 
+[skesa] Mark used kmers in  0.000001s wall, 0.000000s user + 0.000000s system = 0.000000s CPU (n/a%)
+[skesa] Kmers in multiple/single contigs: 0 0
+[skesa] Fragments before: 474 1746350
+[skesa] Fragments after: 451 1746350
+[skesa] New seeds: 316
+[skesa] New seeds in  0.655827s wall, 3.700000s user + 0.000000s system = 3.700000s CPU (564.2%)
+[skesa] Fragments before: 632 13272
+[skesa] Fragments after: 632 13272
+[skesa] Connectors: 0 Extenders: 632
+[skesa] Connections and extensions in  0.124307s wall, 0.650000s user + 0.000000s system = 0.650000s CPU (522.9%)
+[skesa] Contigs out: 316 Genome: 1731484 N50: 17657 L50: 31
+[skesa] Assembled in  0.794996s wall, 4.370000s user + 0.000000s system = 4.370000s CPU (549.7%)
+[skesa] 
+[skesa] 
+[skesa] Kmer len: 129
+[skesa] Raw kmers: 23495474 Memory needed (GB): 1.35334 Memory available (GB): 33.9051 1 cycle(s) will be performed
+[skesa] Distinct kmers: 1768986
+[skesa] Kmer count in  2.057139s wall, 8.710000s user + 0.570000s system = 9.280000s CPU (451.1%)
+[skesa] Uniq kmers merging in  0.193831s wall, 0.160000s user + 0.160000s system = 0.320000s CPU (165.1%)
+[skesa] 
+[skesa] Average count: 59.2299 Max kmer: 129
+[skesa] Connected: 9308 ambiguously connected: 421 from 10000 mate pairs
+[skesa] Connect pairs in  8.779548s wall, 50.850000s user + 0.050000s system = 50.900000s CPU (579.8%)
+[skesa] 
+[skesa] N50 for inserts: 495
+[skesa] 
+[skesa] Seed kmers: 0
+[skesa] Cleaned reads: 115657
+[skesa] Reads for connection: 66956
+[skesa] Internal reads: 5665
+[skesa] Reads cleaned in  1.015564s wall, 5.180000s user + 0.050000s system = 5.230000s CPU (515.0%)
+[skesa] 
+[skesa] Kmer len: 31
+[skesa] Raw kmers: 14145113 Memory needed (GB): 0.271586 Memory available (GB): 33.9617 1 cycle(s) will be performed
+[skesa] Distinct kmers: 356364
+[skesa] Kmer count in  0.503818s wall, 2.490000s user + 0.110000s system = 2.600000s CPU (516.1%)
+[skesa] Uniq kmers merging in  0.009092s wall, 0.020000s user + 0.000000s system = 0.020000s CPU (220.0%)
+[skesa] Kmers branching in  0.130198s wall, 0.540000s user + 0.010000s system = 0.550000s CPU (422.4%)
+[skesa] Kmer: 31 Graph size: 356364 Contigs in: 316
+[skesa] Valley: 33
+[skesa] 
+[skesa] Mark used kmers in  0.124882s wall, 0.730000s user + 0.000000s system = 0.730000s CPU (584.5%)
+[skesa] Kmers in multiple/single contigs: 0 315851
+[skesa] Fragments before: 531 28587
+[skesa] Fragments after: 519 28587
+[skesa] New seeds: 22
+[skesa] New seeds in  0.101296s wall, 0.500000s user + 0.000000s system = 0.500000s CPU (493.6%)
+[skesa] Fragments before: 676 22338
+[skesa] Fragments after: 491 22338
+[skesa] Connectors: 185 Extenders: 306
+[skesa] Connections and extensions in  0.215766s wall, 1.060000s user + 0.000000s system = 1.060000s CPU (491.3%)
+[skesa] Contigs out: 153 Genome: 1742179 N50: 49711 L50: 10
+[skesa] Assembled in  0.444252s wall, 2.300000s user + 0.000000s system = 2.300000s CPU (517.7%)
+[skesa] 
+[skesa] Seed kmers: 0
+[skesa] Cleaned reads: 61523
+[skesa] Reads for connection: 38420
+[skesa] Internal reads: 2370
+[skesa] Reads cleaned in  0.681086s wall, 3.320000s user + 0.050000s system = 3.370000s CPU (494.8%)
+[skesa] 
+[skesa] Kmer len: 43
+[skesa] Raw kmers: 6789332 Memory needed (GB): 0.195533 Memory available (GB): 33.9595 1 cycle(s) will be performed
+[skesa] Distinct kmers: 148107
+[skesa] Kmer count in  0.311952s wall, 1.530000s user + 0.010000s system = 1.540000s CPU (493.7%)
+[skesa] Uniq kmers merging in  0.005386s wall, 0.010000s user + 0.010000s system = 0.020000s CPU (371.4%)
+[skesa] Kmers branching in  0.049382s wall, 0.220000s user + 0.000000s system = 0.220000s CPU (445.5%)
+[skesa] Kmer: 43 Graph size: 148107 Contigs in: 153
+[skesa] Valley: 27
+[skesa] 
+[skesa] Mark used kmers in  0.093795s wall, 0.540000s user + 0.000000s system = 0.540000s CPU (575.7%)
+[skesa] Kmers in multiple/single contigs: 0 119226
+[skesa] Fragments before: 309 17206
+[skesa] Fragments after: 298 17206
+[skesa] New seeds: 8
+[skesa] New seeds in  0.051167s wall, 0.240000s user + 0.000000s system = 0.240000s CPU (469.1%)
+[skesa] Fragments before: 322 13695
+[skesa] Fragments after: 282 13695
+[skesa] Connectors: 40 Extenders: 242
+[skesa] Connections and extensions in  0.185453s wall, 0.750000s user + 0.000000s system = 0.750000s CPU (404.4%)
+[skesa] Contigs out: 121 Genome: 1746366 N50: 60830 L50: 9
+[skesa] Assembled in  0.331874s wall, 1.530000s user + 0.000000s system = 1.530000s CPU (461.0%)
+[skesa] 
+[skesa] Seed kmers: 0
+[skesa] Cleaned reads: 51484
+[skesa] Reads for connection: 33096
+[skesa] Internal reads: 1956
+[skesa] Reads cleaned in  0.561475s wall, 2.720000s user + 0.030000s system = 2.750000s CPU (489.8%)
+[skesa] 
+[skesa] Kmer len: 53
+[skesa] Raw kmers: 5207807 Memory needed (GB): 0.149985 Memory available (GB): 33.9564 1 cycle(s) will be performed
+[skesa] Distinct kmers: 111661
+[skesa] Kmer count in  0.178570s wall, 0.970000s user + 0.000000s system = 0.970000s CPU (543.2%)
+[skesa] Uniq kmers merging in  0.004402s wall, 0.010000s user + 0.000000s system = 0.010000s CPU (227.2%)
+[skesa] Kmers branching in  0.039560s wall, 0.180000s user + 0.000000s system = 0.180000s CPU (455.0%)
+[skesa] Kmer: 53 Graph size: 111661 Contigs in: 121
+[skesa] Valley: 26
+[skesa] 
+[skesa] Mark used kmers in  0.115256s wall, 0.590000s user + 0.000000s system = 0.590000s CPU (511.9%)
+[skesa] Kmers in multiple/single contigs: 0 85837
+[skesa] Fragments before: 249 15420
+[skesa] Fragments after: 245 15420
+[skesa] New seeds: 3
+[skesa] New seeds in  0.044650s wall, 0.200000s user + 0.000000s system = 0.200000s CPU (447.9%)
+[skesa] Fragments before: 248 13545
+[skesa] Fragments after: 237 13545
+[skesa] Connectors: 11 Extenders: 226
+[skesa] Connections and extensions in  0.196592s wall, 0.800000s user + 0.000000s system = 0.800000s CPU (406.9%)
+[skesa] Contigs out: 113 Genome: 1749707 N50: 70206 L50: 8
+[skesa] Assembled in  0.357477s wall, 1.600000s user + 0.000000s system = 1.600000s CPU (447.6%)
+[skesa] 
+[skesa] Seed kmers: 0
+[skesa] Cleaned reads: 48596
+[skesa] Reads for connection: 31076
+[skesa] Internal reads: 2041
+[skesa] Reads cleaned in  0.473659s wall, 2.260000s user + 0.040000s system = 2.300000s CPU (485.6%)
+[skesa] 
+[skesa] Kmer len: 63
+[skesa] Raw kmers: 4460867 Memory needed (GB): 0.128473 Memory available (GB): 33.9538 1 cycle(s) will be performed
+[skesa] Distinct kmers: 103749
+[skesa] Kmer count in  0.184101s wall, 0.920000s user + 0.000000s system = 0.920000s CPU (499.7%)
+[skesa] Uniq kmers merging in  0.005771s wall, 0.010000s user + 0.000000s system = 0.010000s CPU (173.3%)
+[skesa] Kmers branching in  0.028465s wall, 0.140000s user + 0.010000s system = 0.150000s CPU (527.0%)
+[skesa] Kmer: 63 Graph size: 103749 Contigs in: 113
+[skesa] Valley: 26
+[skesa] 
+[skesa] Mark used kmers in  0.091424s wall, 0.490000s user + 0.000000s system = 0.490000s CPU (536.0%)
+[skesa] Kmers in multiple/single contigs: 0 79392
+[skesa] Fragments before: 235 14605
+[skesa] Fragments after: 232 14605
+[skesa] New seeds: 3
+[skesa] New seeds in  0.042084s wall, 0.180000s user + 0.000000s system = 0.180000s CPU (427.7%)
+[skesa] Fragments before: 232 12702
+[skesa] Fragments after: 226 12702
+[skesa] Connectors: 6 Extenders: 220
+[skesa] Connections and extensions in  0.194037s wall, 0.890000s user + 0.000000s system = 0.890000s CPU (458.7%)
+[skesa] Contigs out: 110 Genome: 1751266 N50: 70206 L50: 8
+[skesa] Assembled in  0.328696s wall, 1.570000s user + 0.000000s system = 1.570000s CPU (477.6%)
+[skesa] 
+[skesa] Seed kmers: 0
+[skesa] Cleaned reads: 47421
+[skesa] Reads for connection: 30374
+[skesa] Internal reads: 2085
+[skesa] Reads cleaned in  0.547902s wall, 2.660000s user + 0.040000s system = 2.700000s CPU (492.8%)
+[skesa] 
+[skesa] Kmer len: 75
+[skesa] Raw kmers: 3811801 Memory needed (GB): 0.146373 Memory available (GB): 33.9513 1 cycle(s) will be performed
+[skesa] Distinct kmers: 99903
+[skesa] Kmer count in  0.233523s wall, 1.080000s user + 0.000000s system = 1.080000s CPU (462.5%)
+[skesa] Uniq kmers merging in  0.005945s wall, 0.010000s user + 0.010000s system = 0.020000s CPU (336.4%)
+[skesa] Kmers branching in  0.040435s wall, 0.200000s user + 0.000000s system = 0.200000s CPU (494.6%)
+[skesa] Kmer: 75 Graph size: 99903 Contigs in: 110
+[skesa] Valley: 22
+[skesa] 
+[skesa] Mark used kmers in  0.117373s wall, 0.640000s user + 0.000000s system = 0.640000s CPU (545.3%)
+[skesa] Kmers in multiple/single contigs: 0 74785
+[skesa] Fragments before: 216 17143
+[skesa] Fragments after: 211 17143
+[skesa] New seeds: 0
+[skesa] New seeds in  0.044864s wall, 0.190000s user + 0.000000s system = 0.190000s CPU (423.5%)
+[skesa] Fragments before: 212 14720
+[skesa] Fragments after: 197 14720
+[skesa] Connectors: 15 Extenders: 182
+[skesa] Connections and extensions in  0.240279s wall, 1.160000s user + 0.000000s system = 1.160000s CPU (482.8%)
+[skesa] Contigs out: 91 Genome: 1753679 N50: 97612 L50: 6
+[skesa] Assembled in  0.403543s wall, 1.990000s user + 0.000000s system = 1.990000s CPU (493.1%)
+[skesa] 
+[skesa] Seed kmers: 0
+[skesa] Cleaned reads: 43391
+[skesa] Reads for connection: 27632
+[skesa] Internal reads: 2023
+[skesa] Reads cleaned in  0.657185s wall, 2.800000s user + 0.050000s system = 2.850000s CPU (433.7%)
+[skesa] 
+[skesa] Kmer len: 85
+[skesa] Raw kmers: 3083512 Memory needed (GB): 0.118407 Memory available (GB): 33.9483 1 cycle(s) will be performed
+[skesa] Distinct kmers: 89085
+[skesa] Kmer count in  0.207280s wall, 1.020000s user + 0.010000s system = 1.030000s CPU (496.9%)
+[skesa] Uniq kmers merging in  0.005253s wall, 0.000000s user + 0.000000s system = 0.000000s CPU (n/a%)
+[skesa] Kmers branching in  0.036282s wall, 0.180000s user + 0.000000s system = 0.180000s CPU (496.1%)
+[skesa] Kmer: 85 Graph size: 89085 Contigs in: 91
+[skesa] Valley: 17
+[skesa] 
+[skesa] Mark used kmers in  0.160275s wall, 0.780000s user + 0.010000s system = 0.790000s CPU (492.9%)
+[skesa] Kmers in multiple/single contigs: 0 66108
+[skesa] Fragments before: 187 15143
+[skesa] Fragments after: 182 15143
+[skesa] New seeds: 1
+[skesa] New seeds in  0.039693s wall, 0.170000s user + 0.000000s system = 0.170000s CPU (428.3%)
+[skesa] Fragments before: 176 12642
+[skesa] Fragments after: 172 12642
+[skesa] Connectors: 4 Extenders: 168
+[skesa] Connections and extensions in  0.268569s wall, 1.110000s user + 0.000000s system = 1.110000s CPU (413.3%)
+[skesa] Contigs out: 84 Genome: 1754669 N50: 97612 L50: 6
+[skesa] Assembled in  0.469350s wall, 2.070000s user + 0.010000s system = 2.080000s CPU (443.2%)
+[skesa] 
+[skesa] Seed kmers: 0
+[skesa] Cleaned reads: 42224
+[skesa] Reads for connection: 26736
+[skesa] Internal reads: 2085
+[skesa] Reads cleaned in  0.589238s wall, 2.550000s user + 0.040000s system = 2.590000s CPU (439.6%)
+[skesa] 
+[skesa] Kmer len: 97
+[skesa] Raw kmers: 2515036 Memory needed (GB): 0.120722 Memory available (GB): 33.9454 1 cycle(s) will be performed
+[skesa] Distinct kmers: 86333
+[skesa] Kmer count in  0.126614s wall, 0.650000s user + 0.000000s system = 0.650000s CPU (513.4%)
+[skesa] Uniq kmers merging in  0.004938s wall, 0.010000s user + 0.000000s system = 0.010000s CPU (202.5%)
+[skesa] Kmers branching in  0.039978s wall, 0.200000s user + 0.000000s system = 0.200000s CPU (500.3%)
+[skesa] Kmer: 97 Graph size: 86333 Contigs in: 84
+[skesa] Valley: 0
+[skesa] 
+[skesa] Mark used kmers in  0.153442s wall, 0.730000s user + 0.000000s system = 0.730000s CPU (475.7%)
+[skesa] Kmers in multiple/single contigs: 0 63077
+[skesa] Fragments before: 175 15889
+[skesa] Fragments after: 169 15889
+[skesa] New seeds: 2
+[skesa] New seeds in  0.040156s wall, 0.160000s user + 0.010000s system = 0.170000s CPU (423.3%)
+[skesa] Fragments before: 168 13671
+[skesa] Fragments after: 163 13671
+[skesa] Connectors: 5 Extenders: 158
+[skesa] Connections and extensions in  0.174123s wall, 0.790000s user + 0.000000s system = 0.790000s CPU (453.7%)
+[skesa] Contigs out: 79 Genome: 1756360 N50: 97612 L50: 6
+[skesa] Assembled in  0.368692s wall, 1.690000s user + 0.010000s system = 1.700000s CPU (461.1%)
+[skesa] 
+[skesa] Seed kmers: 0
+[skesa] Cleaned reads: 39911
+[skesa] Reads for connection: 25640
+[skesa] Internal reads: 1946
+[skesa] Reads cleaned in  0.489750s wall, 2.080000s user + 0.050000s system = 2.130000s CPU (434.9%)
+[skesa] 
+[skesa] Kmer len: 107
+[skesa] Raw kmers: 2002325 Memory needed (GB): 0.0961116 Memory available (GB): 33.942 1 cycle(s) will be performed
+[skesa] Distinct kmers: 78098
+[skesa] Kmer count in  0.135096s wall, 0.660000s user + 0.010000s system = 0.670000s CPU (495.9%)
+[skesa] Uniq kmers merging in  0.004710s wall, 0.010000s user + 0.000000s system = 0.010000s CPU (212.3%)
+[skesa] Kmers branching in  0.032856s wall, 0.160000s user + 0.000000s system = 0.160000s CPU (487.0%)
+[skesa] Kmer: 107 Graph size: 78098 Contigs in: 79
+[skesa] Valley: 0
+[skesa] 
+[skesa] Mark used kmers in  0.183243s wall, 0.780000s user + 0.000000s system = 0.780000s CPU (425.7%)
+[skesa] Kmers in multiple/single contigs: 0 55577
+[skesa] Fragments before: 172 14917
+[skesa] Fragments after: 165 14917
+[skesa] New seeds: 0
+[skesa] New seeds in  0.042458s wall, 0.170000s user + 0.000000s system = 0.170000s CPU (400.4%)
+[skesa] Fragments before: 156 12984
+[skesa] Fragments after: 156 12984
+[skesa] Connectors: 0 Extenders: 156
+[skesa] Connections and extensions in  0.256259s wall, 1.130000s user + 0.000000s system = 1.130000s CPU (441.0%)
+[skesa] Contigs out: 78 Genome: 1756259 N50: 97612 L50: 6
+[skesa] Assembled in  0.482912s wall, 2.080000s user + 0.000000s system = 2.080000s CPU (430.7%)
+[skesa] 
+[skesa] Seed kmers: 0
+[skesa] Cleaned reads: 39626
+[skesa] Reads for connection: 25640
+[skesa] Internal reads: 1945
+[skesa] Reads cleaned in  0.508272s wall, 2.130000s user + 0.040000s system = 2.170000s CPU (426.9%)
+[skesa] 
+[skesa] Kmer len: 117
+[skesa] Raw kmers: 1607163 Memory needed (GB): 0.0771438 Memory available (GB): 33.9388 1 cycle(s) will be performed
+[skesa] Distinct kmers: 76246
+[skesa] Kmer count in  0.131654s wall, 0.500000s user + 0.010000s system = 0.510000s CPU (387.4%)
+[skesa] Uniq kmers merging in  0.004491s wall, 0.000000s user + 0.010000s system = 0.010000s CPU (222.7%)
+[skesa] Kmers branching in  0.024721s wall, 0.120000s user + 0.000000s system = 0.120000s CPU (485.4%)
+[skesa] Kmer: 117 Graph size: 76246 Contigs in: 78
+[skesa] Valley: 0
+[skesa] 
+[skesa] Mark used kmers in  0.122206s wall, 0.570000s user + 0.000000s system = 0.570000s CPU (466.4%)
+[skesa] Kmers in multiple/single contigs: 0 52335
+[skesa] Fragments before: 165 16068
+[skesa] Fragments after: 158 16068
+[skesa] New seeds: 0
+[skesa] New seeds in  0.038895s wall, 0.160000s user + 0.010000s system = 0.170000s CPU (437.1%)
+[skesa] Fragments before: 152 14419
+[skesa] Fragments after: 151 14419
+[skesa] Connectors: 1 Extenders: 150
+[skesa] Connections and extensions in  0.254711s wall, 1.160000s user + 0.000000s system = 1.160000s CPU (455.4%)
+[skesa] Contigs out: 75 Genome: 1756700 N50: 97612 L50: 6
+[skesa] Assembled in  0.416700s wall, 1.900000s user + 0.010000s system = 1.910000s CPU (458.4%)
+[skesa] 
+[skesa] Seed kmers: 0
+[skesa] Cleaned reads: 39148
+[skesa] Reads for connection: 25362
+[skesa] Internal reads: 1991
+[skesa] Reads cleaned in  0.627898s wall, 2.500000s user + 0.040000s system = 2.540000s CPU (404.5%)
+[skesa] 
+[skesa] Kmer len: 129
+[skesa] Raw kmers: 1130136 Memory needed (GB): 0.0650958 Memory available (GB): 33.9357 1 cycle(s) will be performed
+[skesa] Distinct kmers: 71826
+[skesa] Kmer count in  0.130970s wall, 0.470000s user + 0.020000s system = 0.490000s CPU (374.1%)
+[skesa] Uniq kmers merging in  0.005074s wall, 0.010000s user + 0.000000s system = 0.010000s CPU (197.1%)
+[skesa] Kmers branching in  0.034992s wall, 0.180000s user + 0.000000s system = 0.180000s CPU (514.4%)
+[skesa] Kmer: 129 Graph size: 71826 Contigs in: 75
+[skesa] Valley: 0
+[skesa] 
+[skesa] Mark used kmers in  0.154645s wall, 0.780000s user + 0.000000s system = 0.780000s CPU (504.4%)
+[skesa] Kmers in multiple/single contigs: 0 47136
+[skesa] Fragments before: 154 17549
+[skesa] Fragments after: 146 17549
+[skesa] New seeds: 2
+[skesa] New seeds in  0.046920s wall, 0.190000s user + 0.000000s system = 0.190000s CPU (404.9%)
+[skesa] Fragments before: 150 15823
+[skesa] Fragments after: 143 15823
+[skesa] Connectors: 7 Extenders: 136
+[skesa] Connections and extensions in  0.270554s wall, 1.360000s user + 0.010000s system = 1.370000s CPU (506.4%)
+[skesa] Contigs out: 68 Genome: 1758629 N50: 97612 L50: 6
+[skesa] Assembled in  0.472940s wall, 2.330000s user + 0.010000s system = 2.340000s CPU (494.8%)
+[skesa] 
+[skesa] Seed kmers: 0
+[skesa] Cleaned reads: 37485
+[skesa] Reads for connection: 23942
+[skesa] Internal reads: 2040
+[skesa] Reads cleaned in  0.651632s wall, 2.430000s user + 0.060000s system = 2.490000s CPU (382.1%)
+[skesa] 
+[skesa] Connecting mate pairs using kmer length: 21
+[skesa] Connected: 4579 ambiguously connected: 6648 from 11971 mate pairs
+[skesa] Connect pairs in  19.917174s wall, 96.040000s user + 0.100000s system = 96.140000s CPU (482.7%)
+[skesa] 
+[skesa] Connecting mate pairs using kmer length: 31
+[skesa] Connected: 1540 ambiguously connected: 5105 from 6648 mate pairs
+[skesa] Connect pairs in  4.925301s wall, 20.990000s user + 0.020000s system = 21.010000s CPU (426.6%)
+[skesa] 
+[skesa] Connecting mate pairs using kmer length: 43
+[skesa] Connected: 695 ambiguously connected: 4407 from 5105 mate pairs
+[skesa] Connect pairs in  2.521761s wall, 11.790000s user + 0.010000s system = 11.800000s CPU (467.9%)
+[skesa] 
+[skesa] Connecting mate pairs using kmer length: 53
+[skesa] Connected: 661 ambiguously connected: 3745 from 4407 mate pairs
+[skesa] Connect pairs in  2.368540s wall, 10.690000s user + 0.020000s system = 10.710000s CPU (452.2%)
+[skesa] 
+[skesa] Connecting mate pairs using kmer length: 63
+[skesa] Connected: 338 ambiguously connected: 3391 from 3745 mate pairs
+[skesa] Connect pairs in  1.459733s wall, 6.640000s user + 0.000000s system = 6.640000s CPU (454.9%)
+[skesa] 
+[skesa] Connecting mate pairs using kmer length: 75
+[skesa] Connected: 750 ambiguously connected: 2637 from 3391 mate pairs
+[skesa] Connect pairs in  2.175368s wall, 9.280000s user + 0.010000s system = 9.290000s CPU (427.1%)
+[skesa] 
+[skesa] Connecting mate pairs using kmer length: 85
+[skesa] Connected: 240 ambiguously connected: 2389 from 2637 mate pairs
+[skesa] Connect pairs in  1.124348s wall, 4.750000s user + 0.000000s system = 4.750000s CPU (422.5%)
+[skesa] 
+[skesa] Connecting mate pairs using kmer length: 97
+[skesa] Connected: 256 ambiguously connected: 2123 from 2389 mate pairs
+[skesa] Connect pairs in  1.125841s wall, 4.690000s user + 0.010000s system = 4.700000s CPU (417.5%)
+[skesa] 
+[skesa] Connecting mate pairs using kmer length: 107
+[skesa] Connected: 10 ambiguously connected: 2098 from 2123 mate pairs
+[skesa] Connect pairs in  0.947259s wall, 4.190000s user + 0.000000s system = 4.190000s CPU (442.3%)
+[skesa] 
+[skesa] Connecting mate pairs using kmer length: 117
+[skesa] Connected: 92 ambiguously connected: 1977 from 2098 mate pairs
+[skesa] Connect pairs in  1.014562s wall, 4.330000s user + 0.000000s system = 4.330000s CPU (426.8%)
+[skesa] 
+[skesa] Connecting mate pairs using kmer length: 129
+[skesa] Connected: 337 ambiguously connected: 1534 from 1977 mate pairs
+[skesa] Connect pairs in  1.117427s wall, 4.750000s user + 0.000000s system = 4.750000s CPU (425.1%)
+[skesa] Totally connected: 9498
+[skesa] Added notconnected: 3068
+[skesa] 
+[skesa] Kmer len: 161
+[skesa] Raw kmers: 6394019 Memory needed (GB): 0.429678 Memory available (GB): 33.9309 1 cycle(s) will be performed
+[skesa] Distinct kmers: 78749
+[skesa] Kmer count in  0.435962s wall, 2.050000s user + 0.130000s system = 2.180000s CPU (500.0%)
+[skesa] Uniq kmers merging in  0.027697s wall, 0.010000s user + 0.020000s system = 0.030000s CPU (108.3%)
+[skesa] Kmers branching in  0.044239s wall, 0.220000s user + 0.000000s system = 0.220000s CPU (497.3%)
+[skesa] Kmer: 161 Graph size: 78749 Contigs in: 68
+[skesa] Valley: 27
+[skesa] 
+[skesa] Mark used kmers in  0.164386s wall, 0.880000s user + 0.000000s system = 0.880000s CPU (535.3%)
+[skesa] Kmers in multiple/single contigs: 0 53700
+[skesa] Fragments before: 135 18765
+[skesa] Fragments after: 127 18765
+[skesa] New seeds: 0
+[skesa] New seeds in  0.046533s wall, 0.180000s user + 0.000000s system = 0.180000s CPU (386.8%)
+[skesa] Fragments before: 134 18319
+[skesa] Fragments after: 128 18319
+[skesa] Connectors: 6 Extenders: 122
+[skesa] Connections and extensions in  0.300032s wall, 1.200000s user + 0.010000s system = 1.210000s CPU (403.3%)
+[skesa] Contigs out: 61 Genome: 1760864 N50: 98750 L50: 5
+[skesa] Assembled in  0.511871s wall, 2.260000s user + 0.010000s system = 2.270000s CPU (443.5%)
+[skesa] 
+[skesa] 
+[skesa] Kmer len: 327
+[skesa] Raw kmers: 4071182 Memory needed (GB): 0.469 Memory available (GB): 33.9264 1 cycle(s) will be performed
+[skesa] Distinct kmers: 77601
+[skesa] Kmer count in  0.443365s wall, 2.020000s user + 0.160000s system = 2.180000s CPU (491.7%)
+[skesa] Uniq kmers merging in  0.010514s wall, 0.010000s user + 0.010000s system = 0.020000s CPU (190.2%)
+[skesa] Kmers branching in  0.034987s wall, 0.170000s user + 0.000000s system = 0.170000s CPU (485.9%)
+[skesa] Kmer: 327 Graph size: 77601 Contigs in: 61
+[skesa] Valley: 18
+[skesa] 
+[skesa] Mark used kmers in  0.182909s wall, 0.990000s user + 0.010000s system = 1.000000s CPU (546.7%)
+[skesa] Kmers in multiple/single contigs: 0 42973
+[skesa] Fragments before: 94 28121
+[skesa] Fragments after: 80 28121
+[skesa] New seeds: 0
+[skesa] New seeds in  0.068616s wall, 0.230000s user + 0.000000s system = 0.230000s CPU (335.2%)
+[skesa] Fragments before: 95 27830
+[skesa] Fragments after: 80 27830
+[skesa] Connectors: 15 Extenders: 65
+[skesa] Connections and extensions in  0.336563s wall, 1.310000s user + 0.010000s system = 1.320000s CPU (392.2%)
+[skesa] Contigs out: 33 Genome: 1764082 N50: 120302 L50: 5
+[skesa] Assembled in  0.588864s wall, 2.530000s user + 0.020000s system = 2.550000s CPU (433.0%)
+[skesa] 
+[skesa] 
+[skesa] Kmer len: 495
+[skesa] Raw kmers: 2231826 Memory needed (GB): 0.364234 Memory available (GB): 33.9188 1 cycle(s) will be performed
+[skesa] Distinct kmers: 72361
+[skesa] Kmer count in  0.425926s wall, 1.590000s user + 0.110000s system = 1.700000s CPU (399.1%)
+[skesa] Uniq kmers merging in  0.015003s wall, 0.020000s user + 0.010000s system = 0.030000s CPU (200.0%)
+[skesa] Kmers branching in  0.059237s wall, 0.320000s user + 0.000000s system = 0.320000s CPU (540.2%)
+[skesa] Kmer: 495 Graph size: 72361 Contigs in: 33
+[skesa] Valley: 0
+[skesa] 
+[skesa] Mark used kmers in  0.214796s wall, 1.060000s user + 0.000000s system = 1.060000s CPU (493.5%)
+[skesa] Kmers in multiple/single contigs: 0 42946
+[skesa] Fragments before: 69 23500
+[skesa] Fragments after: 58 23500
+[skesa] New seeds: 0
+[skesa] New seeds in  0.073583s wall, 0.250000s user + 0.010000s system = 0.260000s CPU (353.3%)
+[skesa] Fragments before: 60 21120
+[skesa] Fragments after: 55 21120
+[skesa] Connectors: 5 Extenders: 50
+[skesa] Connections and extensions in  0.263138s wall, 1.020000s user + 0.000000s system = 1.020000s CPU (387.6%)
+[skesa] Contigs out: 26 Genome: 1764318 N50: 120302 L50: 5
+[skesa] Assembled in  0.552313s wall, 2.330000s user + 0.010000s system = 2.340000s CPU (423.7%)
+[skesa] 
+[skesa] DONE
+[shovill] Checking for assembly errors in skesa.fasta
+[shovill] Running: bwa index skesa.fasta 2>&1 | sed 's/^/[bwa-index] /' | tee -a shovill.log
+[bwa-index] [bwa_index] Pack FASTA... 0.01 sec
+[bwa-index] [bwa_index] Construct BWT for the packed sequence...
+[bwa-index] [bwa_index] 0.54 seconds elapse.
+[bwa-index] [bwa_index] Update BWT... 0.02 sec
+[bwa-index] [bwa_index] Pack forward-only FASTA... 0.01 sec
+[bwa-index] [bwa_index] Construct SA from BWT and Occ... 0.23 sec
+[bwa-index] [main] Version: 0.7.17-r1188
+[bwa-index] [main] CMD: bwa index skesa.fasta
+[bwa-index] [main] Real time: 1.776 sec; CPU: 0.819 sec
+[shovill] Running: samtools faidx skesa.fasta 2>&1 | sed 's/^/[faidx] /' | tee -a shovill.log
+[shovill] Running: (bwa mem -v 3 -x intractg -t 6 skesa.fasta R1.fq.gz R2.fq.gz | samclip --ref skesa.fasta.fai | samtools sort --threads 1 -m 18432m --reference skesa.fasta -T /tmp/Sh5Urwa4CN -o shovill.bam) 2>&1 | sed 's/^/[bwa+samtools-sort] /' | tee -a shovill.log
+[bwa+samtools-sort] [M::bwa_idx_load_from_disk] read 0 ALT contigs
+[bwa+samtools-sort] [samclip] samclip 0.4.0 by Torsten Seemann (@torstenseemann)
+[bwa+samtools-sort] [samclip] Loading: skesa.fasta.fai
+[bwa+samtools-sort] [samclip] Found 26 sequences in skesa.fasta.fai
+[bwa+samtools-sort] [M::process] read 425284 sequences (60000048 bp)...
+[bwa+samtools-sort] [M::process] read 424192 sequences (60000243 bp)...
+[bwa+samtools-sort] [M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 207333, 1, 0)
+[bwa+samtools-sort] [M::mem_pestat] skip orientation FF as there are not enough pairs
+[bwa+samtools-sort] [M::mem_pestat] analyzing insert size distribution for orientation FR...
+[bwa+samtools-sort] [M::mem_pestat] (25, 50, 75) percentile: (221, 377, 498)
+[bwa+samtools-sort] [M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 1052)
+[bwa+samtools-sort] [M::mem_pestat] mean and std.dev: (370.33, 193.48)
+[bwa+samtools-sort] [M::mem_pestat] low and high boundaries for proper pairs: (1, 1329)
+[bwa+samtools-sort] [M::mem_pestat] skip orientation RF as there are not enough pairs
+[bwa+samtools-sort] [M::mem_pestat] skip orientation RR as there are not enough pairs
+[bwa+samtools-sort] [M::mem_process_seqs] Processed 425284 reads in 17.959 CPU sec, 2.947 real sec
+[bwa+samtools-sort] [samclip] Processed 100000 records...
+[bwa+samtools-sort] [samclip] Processed 200000 records...
+[bwa+samtools-sort] [samclip] Processed 300000 records...
+[bwa+samtools-sort] [samclip] Processed 400000 records...
+[bwa+samtools-sort] [M::process] read 172308 sequences (24373732 bp)...
+[bwa+samtools-sort] [M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (1, 206921, 1, 1)
+[bwa+samtools-sort] [M::mem_pestat] skip orientation FF as there are not enough pairs
+[bwa+samtools-sort] [M::mem_pestat] analyzing insert size distribution for orientation FR...
+[bwa+samtools-sort] [M::mem_pestat] (25, 50, 75) percentile: (227, 383, 502)
+[bwa+samtools-sort] [M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 1052)
+[bwa+samtools-sort] [M::mem_pestat] mean and std.dev: (375.26, 194.12)
+[bwa+samtools-sort] [M::mem_pestat] low and high boundaries for proper pairs: (1, 1327)
+[bwa+samtools-sort] [M::mem_pestat] skip orientation RF as there are not enough pairs
+[bwa+samtools-sort] [M::mem_pestat] skip orientation RR as there are not enough pairs
+[bwa+samtools-sort] [M::mem_process_seqs] Processed 424192 reads in 15.760 CPU sec, 2.574 real sec
+[bwa+samtools-sort] [samclip] Processed 500000 records...
+[bwa+samtools-sort] [samclip] Processed 600000 records...
+[bwa+samtools-sort] [samclip] Processed 700000 records...
+[bwa+samtools-sort] [M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 84033, 0, 0)
+[bwa+samtools-sort] [M::mem_pestat] skip orientation FF as there are not enough pairs
+[bwa+samtools-sort] [M::mem_pestat] analyzing insert size distribution for orientation FR...
+[bwa+samtools-sort] [M::mem_pestat] (25, 50, 75) percentile: (227, 382, 501)
+[bwa+samtools-sort] [M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 1049)
+[bwa+samtools-sort] [M::mem_pestat] mean and std.dev: (374.83, 193.40)
+[bwa+samtools-sort] [M::mem_pestat] low and high boundaries for proper pairs: (1, 1323)
+[bwa+samtools-sort] [M::mem_pestat] skip orientation RF as there are not enough pairs
+[bwa+samtools-sort] [M::mem_pestat] skip orientation RR as there are not enough pairs
+[bwa+samtools-sort] [samclip] Processed 800000 records...
+[bwa+samtools-sort] [M::mem_process_seqs] Processed 172308 reads in 7.100 CPU sec, 1.160 real sec
+[bwa+samtools-sort] [samclip] Processed 900000 records...
+[bwa+samtools-sort] [samclip] Processed 1000000 records...
+[bwa+samtools-sort] [main] Version: 0.7.17-r1188
+[bwa+samtools-sort] [main] CMD: bwa mem -v 3 -x intractg -t 6 skesa.fasta R1.fq.gz R2.fq.gz
+[bwa+samtools-sort] [main] Real time: 8.098 sec; CPU: 41.830 sec
+[bwa+samtools-sort] [samclip] Total SAM records 1023426, removed 9621, allowed 18779, passed 1013805
+[bwa+samtools-sort] [samclip] Header contained 27 lines
+[bwa+samtools-sort] [samclip] Done.
+[shovill] Running: samtools index shovill.bam 2>&1 | sed 's/^/[samtools-index] /' | tee -a shovill.log
+[shovill] Correcting errors in skesa.fasta
+[shovill] Running: pilon --genome skesa.fasta --frags shovill.bam --minmq 60 --minqual 3 --fix bases --output pilon --threads 6 --changes --mindepth 0.25 2>&1 | sed 's/^/[pilon] /' | tee -a shovill.log
+[pilon] Pilon version 1.22 Wed Mar 15 16:38:30 2017 -0400
+[pilon] Genome: skesa.fasta
+[pilon] Fixing snps, indels
+[pilon] Input genome size: 1764318
+[pilon] Processing Contig_20_74.6788:1-22661
+[pilon] Processing Contig_18_65.5336:1-50055
+[pilon] Processing Contig_9_65.0643:1-47429
+[pilon] Processing Contig_21_57.974:1-70637
+[pilon] Processing Contig_24_92.4653:1-755
+[pilon] Processing Contig_4_58.7626:1-202528
+[pilon] Contig_24_92.4653:1-755 log:
+[pilon] frags shovill.bam: coverage 49
+[pilon] Total Reads: 631, Coverage: 49, minDepth: 12
+[pilon] Confirmed 686 of 755 bases (90.86%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_24_92.4653:1-755
+[pilon] Processing Contig_5_64.4803:1-249987
+[pilon] Contig_20_74.6788:1-22661 log:
+[pilon] frags shovill.bam: coverage 66
+[pilon] Total Reads: 13357, Coverage: 66, minDepth: 17
+[pilon] Confirmed 21954 of 22661 bases (96.88%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_20_74.6788:1-22661
+[pilon] Processing Contig_15_59.1572:1-26151
+[pilon] Contig_15_59.1572:1-26151 log:
+[pilon] frags shovill.bam: coverage 64
+[pilon] Total Reads: 13956, Coverage: 64, minDepth: 16
+[pilon] Confirmed 26151 of 26151 bases (100.00%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_15_59.1572:1-26151
+[pilon] Processing Contig_12_65.4449:1-71632
+[pilon] Contig_9_65.0643:1-47429 log:
+[pilon] frags shovill.bam: coverage 70
+[pilon] Total Reads: 27806, Coverage: 70, minDepth: 18
+[pilon] Confirmed 47378 of 47429 bases (99.89%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_9_65.0643:1-47429
+[pilon] Processing Contig_22_66.1154:1-46964
+[pilon] Contig_18_65.5336:1-50055 log:
+[pilon] frags shovill.bam: coverage 71
+[pilon] Total Reads: 29499, Coverage: 71, minDepth: 18
+[pilon] Confirmed 50055 of 50055 bases (100.00%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_18_65.5336:1-50055
+[pilon] Processing Contig_7_65.2219:1-32087
+[pilon] Contig_21_57.974:1-70637 log:
+[pilon] frags shovill.bam: coverage 62
+[pilon] Total Reads: 36602, Coverage: 62, minDepth: 16
+[pilon] Confirmed 70586 of 70637 bases (99.93%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_21_57.974:1-70637
+[pilon] Processing Contig_26_65.1698:1-94880
+[pilon] Contig_7_65.2219:1-32087 log:
+[pilon] frags shovill.bam: coverage 70
+[pilon] Total Reads: 18582, Coverage: 70, minDepth: 18
+[pilon] Confirmed 32087 of 32087 bases (100.00%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_7_65.2219:1-32087
+[pilon] Processing Contig_3_61.8044:1-56473
+[pilon] Contig_4_58.7626:1-202528 log:
+[pilon] frags shovill.bam: coverage 64
+[pilon] Total Reads: 107064, Coverage: 64, minDepth: 16
+[pilon] Confirmed 202458 of 202528 bases (99.97%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_4_58.7626:1-202528
+[pilon] Processing Contig_2_62.0265:1-162772
+[pilon] Contig_22_66.1154:1-46964 log:
+[pilon] frags shovill.bam: coverage 67
+[pilon] Total Reads: 27890, Coverage: 67, minDepth: 17
+[pilon] Confirmed 46939 of 46964 bases (99.95%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_22_66.1154:1-46964
+[pilon] Processing Contig_11_66.05:1-99144
+[pilon] Contig_12_65.4449:1-71632 log:
+[pilon] frags shovill.bam: coverage 69
+[pilon] Total Reads: 41288, Coverage: 69, minDepth: 17
+[pilon] Confirmed 71257 of 71632 bases (99.48%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_12_65.4449:1-71632
+[pilon] Contig_5_64.4803:1-249987 log:
+[pilon] frags shovill.bam: coverage 70
+[pilon] Total Reads: 144739, Coverage: 70, minDepth: 18
+[pilon] Confirmed 249983 of 249987 bases (100.00%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_5_64.4803:1-249987
+[pilon] Processing Contig_16_138.454:1-788
+[pilon] Contig_26_65.1698:1-94880 log:
+[pilon] frags shovill.bam: coverage 68
+[pilon] Total Reads: 54874, Coverage: 68, minDepth: 17
+[pilon] Confirmed 94578 of 94880 bases (99.68%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_26_65.1698:1-94880
+[pilon] Processing Contig_25_124.458:1-1029
+[pilon] Contig_16_138.454:1-788 log:
+[pilon] frags shovill.bam: coverage 71
+[pilon] Total Reads: 832, Coverage: 71, minDepth: 18
+[pilon] Confirmed 744 of 788 bases (94.42%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_16_138.454:1-788
+[pilon] Processing Contig_1_60.0195:1-101732
+[pilon] Processing Contig_19_67.3916:1-1731
+[pilon] Contig_25_124.458:1-1029 log:
+[pilon] frags shovill.bam: coverage 95
+[pilon] Total Reads: 1261, Coverage: 95, minDepth: 24
+[pilon] Confirmed 1017 of 1029 bases (98.83%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_25_124.458:1-1029
+[pilon] Processing Contig_13_64.2671:1-65763
+[pilon] Contig_3_61.8044:1-56473 log:
+[pilon] frags shovill.bam: coverage 67
+[pilon] Total Reads: 31579, Coverage: 67, minDepth: 17
+[pilon] Confirmed 56435 of 56473 bases (99.93%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_3_61.8044:1-56473
+[pilon] Processing Contig_14_62.6457:1-120302
+[pilon] Contig_19_67.3916:1-1731 log:
+[pilon] frags shovill.bam: coverage 59
+[pilon] Total Reads: 1095, Coverage: 59, minDepth: 15
+[pilon] Confirmed 1688 of 1731 bases (97.52%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_19_67.3916:1-1731
+[pilon] Processing Contig_10_59.5196:1-19299
+[pilon] Contig_2_62.0265:1-162772 log:
+[pilon] frags shovill.bam: coverage 68
+[pilon] Total Reads: 91203, Coverage: 68, minDepth: 17
+[pilon] Confirmed 162772 of 162772 bases (100.00%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_2_62.0265:1-162772
+[pilon] Processing Contig_8_58.5918:1-16031
+[pilon] Contig_10_59.5196:1-19299 log:
+[pilon] frags shovill.bam: coverage 62
+[pilon] Total Reads: 10199, Coverage: 62, minDepth: 16
+[pilon] Confirmed 19129 of 19299 bases (99.12%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_10_59.5196:1-19299
+[pilon] Processing Contig_6_412.828:1-5154
+[pilon] Contig_11_66.05:1-99144 log:
+[pilon] frags shovill.bam: coverage 71
+[pilon] Total Reads: 58479, Coverage: 71, minDepth: 18
+[pilon] Confirmed 98985 of 99144 bases (99.84%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_11_66.05:1-99144
+[pilon] Contig_13_64.2671:1-65763 log:
+[pilon] frags shovill.bam: coverage 65
+[pilon] Total Reads: 36391, Coverage: 65, minDepth: 16
+[pilon] Confirmed 65373 of 65763 bases (99.41%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_13_64.2671:1-65763
+[pilon] Processing Contig_23_128.865:1-4081
+[pilon] Contig_8_58.5918:1-16031 log:
+[pilon] frags shovill.bam: coverage 63
+[pilon] Total Reads: 8528, Coverage: 63, minDepth: 16
+[pilon] Confirmed 16002 of 16031 bases (99.82%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_8_58.5918:1-16031
+[pilon] Contig_6_412.828:1-5154 log:
+[pilon] frags shovill.bam: coverage 433
+[pilon] Total Reads: 20171, Coverage: 433, minDepth: 108
+[pilon] Confirmed 5154 of 5154 bases (100.00%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_6_412.828:1-5154
+[pilon] Processing Contig_17_63.0931:1-194253
+[pilon] Contig_23_128.865:1-4081 log:
+[pilon] frags shovill.bam: coverage 130
+[pilon] Total Reads: 4814, Coverage: 130, minDepth: 33
+[pilon] Confirmed 4025 of 4081 bases (98.63%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_23_128.865:1-4081
+[pilon] Contig_1_60.0195:1-101732 log:
+[pilon] frags shovill.bam: coverage 63
+[pilon] Total Reads: 54059, Coverage: 63, minDepth: 16
+[pilon] Confirmed 101429 of 101732 bases (99.70%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_1_60.0195:1-101732
+[pilon] Contig_14_62.6457:1-120302 log:
+[pilon] frags shovill.bam: coverage 66
+[pilon] Total Reads: 66201, Coverage: 66, minDepth: 17
+[pilon] Confirmed 120188 of 120302 bases (99.91%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_14_62.6457:1-120302
+[pilon] Contig_17_63.0931:1-194253 log:
+[pilon] frags shovill.bam: coverage 68
+[pilon] Total Reads: 110053, Coverage: 68, minDepth: 17
+[pilon] Confirmed 194212 of 194253 bases (99.98%)
+[pilon] Corrected 0 snps; 0 ambiguous bases; corrected 0 small insertions totaling 0 bases, 0 small deletions totaling 0 bases
+[pilon] Finished processing Contig_17_63.0931:1-194253
+[pilon] Writing Contig_1_60.0195:1-101732 changes to pilon.changes
+[pilon] Writing updated Contig_1_60.0195_pilon to pilon.fasta
+[pilon] Writing Contig_2_62.0265:1-162772 changes to pilon.changes
+[pilon] Writing updated Contig_2_62.0265_pilon to pilon.fasta
+[pilon] Writing Contig_3_61.8044:1-56473 changes to pilon.changes
+[pilon] Writing updated Contig_3_61.8044_pilon to pilon.fasta
+[pilon] Writing Contig_4_58.7626:1-202528 changes to pilon.changes
+[pilon] Writing updated Contig_4_58.7626_pilon to pilon.fasta
+[pilon] Writing Contig_5_64.4803:1-249987 changes to pilon.changes
+[pilon] Writing updated Contig_5_64.4803_pilon to pilon.fasta
+[pilon] Writing Contig_6_412.828:1-5154 changes to pilon.changes
+[pilon] Writing updated Contig_6_412.828_pilon to pilon.fasta
+[pilon] Writing Contig_7_65.2219:1-32087 changes to pilon.changes
+[pilon] Writing updated Contig_7_65.2219_pilon to pilon.fasta
+[pilon] Writing Contig_8_58.5918:1-16031 changes to pilon.changes
+[pilon] Writing updated Contig_8_58.5918_pilon to pilon.fasta
+[pilon] Writing Contig_9_65.0643:1-47429 changes to pilon.changes
+[pilon] Writing updated Contig_9_65.0643_pilon to pilon.fasta
+[pilon] Writing Contig_10_59.5196:1-19299 changes to pilon.changes
+[pilon] Writing updated Contig_10_59.5196_pilon to pilon.fasta
+[pilon] Writing Contig_11_66.05:1-99144 changes to pilon.changes
+[pilon] Writing updated Contig_11_66.05_pilon to pilon.fasta
+[pilon] Writing Contig_12_65.4449:1-71632 changes to pilon.changes
+[pilon] Writing updated Contig_12_65.4449_pilon to pilon.fasta
+[pilon] Writing Contig_13_64.2671:1-65763 changes to pilon.changes
+[pilon] Writing updated Contig_13_64.2671_pilon to pilon.fasta
+[pilon] Writing Contig_14_62.6457:1-120302 changes to pilon.changes
+[pilon] Writing updated Contig_14_62.6457_pilon to pilon.fasta
+[pilon] Writing Contig_15_59.1572:1-26151 changes to pilon.changes
+[pilon] Writing updated Contig_15_59.1572_pilon to pilon.fasta
+[pilon] Writing Contig_16_138.454:1-788 changes to pilon.changes
+[pilon] Writing updated Contig_16_138.454_pilon to pilon.fasta
+[pilon] Writing Contig_17_63.0931:1-194253 changes to pilon.changes
+[pilon] Writing updated Contig_17_63.0931_pilon to pilon.fasta
+[pilon] Writing Contig_18_65.5336:1-50055 changes to pilon.changes
+[pilon] Writing updated Contig_18_65.5336_pilon to pilon.fasta
+[pilon] Writing Contig_19_67.3916:1-1731 changes to pilon.changes
+[pilon] Writing updated Contig_19_67.3916_pilon to pilon.fasta
+[pilon] Writing Contig_20_74.6788:1-22661 changes to pilon.changes
+[pilon] Writing updated Contig_20_74.6788_pilon to pilon.fasta
+[pilon] Writing Contig_21_57.974:1-70637 changes to pilon.changes
+[pilon] Writing updated Contig_21_57.974_pilon to pilon.fasta
+[pilon] Writing Contig_22_66.1154:1-46964 changes to pilon.changes
+[pilon] Writing updated Contig_22_66.1154_pilon to pilon.fasta
+[pilon] Writing Contig_23_128.865:1-4081 changes to pilon.changes
+[pilon] Writing updated Contig_23_128.865_pilon to pilon.fasta
+[pilon] Writing Contig_24_92.4653:1-755 changes to pilon.changes
+[pilon] Writing updated Contig_24_92.4653_pilon to pilon.fasta
+[pilon] Writing Contig_25_124.458:1-1029 changes to pilon.changes
+[pilon] Writing updated Contig_25_124.458_pilon to pilon.fasta
+[pilon] Writing Contig_26_65.1698:1-94880 changes to pilon.changes
+[pilon] Writing updated Contig_26_65.1698_pilon to pilon.fasta
+[pilon] Mean frags coverage: 68
+[pilon] Mean total coverage: 68
+[shovill] Repaired 0 contigs from skesa.fasta at 0 positions.
+[shovill] Assembly is 1764318, estimated genome size was 1800000 (-1.98%)
+[shovill] Note: skesa does not produce a graph file
+[shovill] Walltime used: 2 min 17 sec
+[shovill] Results in: /Volumes/NGS_2/Bioinformatics/eriny/aphl_hackathon_2026/work/5c/012ab9ecfafeb4aa99328745ae5e19/SRR38121698_shovill_output
+[shovill] Final assembly contigs: /Volumes/NGS_2/Bioinformatics/eriny/aphl_hackathon_2026/work/5c/012ab9ecfafeb4aa99328745ae5e19/SRR38121698_shovill_output/contigs.fa
+[shovill] It contains 26 (min=500) contigs totalling 1764318 bp.
+[shovill] Use Bandage to inspect the .gfa/.fastg assembly graph: https://rrwick.github.io/Bandage/
+[shovill] Done.

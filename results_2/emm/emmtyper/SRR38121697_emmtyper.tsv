@@ -1,0 +1,2 @@
+sample	Isolate name	Number of BLAST hits	Number of clusters	Predicted emm-type	Position(s)	Possible emm-like alleles	emm-like position(s)	EMM cluster
+SRR38121697	SRR38121697.tmp	7	2	EMM89.0	contig00005:77908	EMM203.4	contig00005:79020	E4
