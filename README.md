@@ -3,68 +3,136 @@
 [![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.04.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
 [![nf-core template version](https://img.shields.io/badge/nf--core_template-3.5.2-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.5.2)
 
-## Introduction
+### Table of Contents:
+[Usage](#using-the-workflow)  
+[Input](#input)  
+[Parameters](#parameters)  
+[Workflow outline](#workflow-outline)  
+[Output](#output-files)  
+[Credits](#credits)  
+[Contributions and Support](#contributions-and-support)  
+[Citations](#citations) 
 
-**APHL/gas** is a bioinformatics pipeline that analyzes Group A Strep.
-
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
-
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/guidelines/graphic_design/workflow_diagrams#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
-
-## Usage
-
-> [!NOTE]
-> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
-
-<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
-     Explain what rows and columns represent. For instance (please edit as appropriate):
-
-First, prepare a samplesheet with your input data that looks as follows:
-
-`samplesheet.csv`:
-
-```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
+### Using the workflow
+The pipeline is designed to start from raw, paired-end Illumina reads. Start the pipeline using:
+```
+nextflow run APHLInfectious-Disease/Group4/main.nf --input [path-to-samplesheet] --outdir [path-to-outdir] -profile [docker,singularity,aws]
 ```
 
-Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
-
--->
-
-Now, you can run the pipeline using:
-
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
-
-```bash
-nextflow run APHL/gas \
-   -profile <docker/singularity/.../institute> \
-   --input samplesheet.csv \
-   --outdir <OUTDIR>
+or from github using:
+```
+nextflow run APHLInfectious-Disease/Group4 -r [version] --input [path-to-samplesheet] --outdir [path-to-outdir] -profile [docker,singularity,aws]
 ```
 
-To run the pipeline on dataset1:
-1. Open codespaces
-2. conda create --name nextflow -c bioconda nextflow
-3. conda activate nextflow
-4. nextflow run main.nf -profile docker --input assets/dataset1/samplesheet.csv --outdir {OUTDIR}
+### Input
+GAS's inputs are paired Illumina FASTQ files for each sample and a comma separated sample sheet containing the sample name, the path to the forward reads file, and the path to the reverse reads file for each sample. A sample sheet can be created using the [fastq_dir_to_samplesheet.py](https://github.com/wslh-bio/SPNtypeID/blob/main/bin/fastq_dir_to_samplesheet.py) script or by hand.  An example of the sample sheet's format can be seen in the table below and found [here](https://raw.githubusercontent.com/wslh-bio/SPNtypeID/main/samplesheets/workflow_test.csv).
 
+| sample  | fastq_1 | fastq_2 |
+| ------------- | ------------- | ------------- |
+| sample_name  | /path/to/sample_name_R1.fastq.gz | /path/to/sample_name_R2.fastq.gz |
+
+
+### Parameters
+
+| Parameter | Parameter description and defaults | Example usage |
+| ------------- | ------------- | ------------- |
+| input | Path to comma-separated file containing information about the samples in the experiment | --input <PATH_TO_SAMPLESHEET> |
+| outdir | Output directory where the results will be saved. Absolute path must be used for storage on cloud infrastructure | --outdir <DESIRED_OUTPUT_PATH> |
+| profile | Denotes how to access containerized software. | -profile aws |
+| fasta | Reference fasta used for alignment based comparisons. Default is random fasta from outbreak group. | --fasta <PATH_TO_REF_FASTA> |
+| task.cpus | Denotes how many cpus to use for Mashtree. Default task.cpus is 2. |--task.cpus 4 |
+| cg_tree_model | Tells IQ-TREE what [model](http://www.iqtree.org/doc/Substitution-Models) to use. Default cg_tree_model is GTR+G | --cg_tree_model "GTR+G" |
+| parsnp_partition | Tells parsnp the minimum partition amount or to not partition. Default is --no-partition.* | --parsnp_partition "--min-partition-size 50" |
+| add_reference | Used to include reference in outputs. This option should not be used if you are using --fasta random. Default is false | --add_reference |
+| minimum_reads | Minimum amount of reads for fastp | --minimum_reads 1000 |
+
+*If you are running an alignment based workflow on >100 samples, it may be beneficial to take into account a higher partitioning value than the default of 100. More information can be found in parsnp 2.0's [paper](https://pubmed.ncbi.nlm.nih.gov/38352342/#:~:text=Parsnp%20v2%20provides%20users%20with,combined%20into%20a%20final%20alignment.).
+
+### Workflow outline
+
+![workflow]('/assets/GAS_Workflow.png')
+
+### Output files
+Example of pipeline output:
+```
+live_demo/
+├── compare
+│   └── sample_exclusion_status.csv
+├── emm
+│   ├── emmtyper
+│   │   ├── SAMPLE1_emmtyper.tsv
+│   └── logs
+│       └── APHL_GAS:GAS:EMM_MLST:EMM_TYPER
+│           └── SAMPLE1.log
+├── fastp
+│   ├── fastp
+│   │   ├── SAMPLE1_fastp.html
+│   │   ├── SAMPLE1_fastp.json
+│   │   ├── SAMPLE1_fastp_R1.fastq.gz
+│   │   ├── SAMPLE1_fastp_R2.fastq.gz
+│   └── logs
+│       └── APHL_GAS:GAS:FASTP
+│           ├── SAMPLE1.log
+│           └── SAMPLE1.err
+├── mlst
+│   └── mlst
+│       └── SAMPLE1.tsv
+├── par
+│   └── parsnp.snps.mblocks.treefile
+├── parse
+│   └── aligner_log.tsv
+├── parsnp
+│   └── parsnp_output
+│       ├── config
+│       │   ├── all.mumi
+│       │   └── all_mumi.ini
+│       ├── log
+│       ├── parsnpAligner.ini
+│       ├── parsnp.ggr
+│       ├── parsnp.maf
+│       ├── parsnp.snps.mblocks
+│       ├── parsnp.tree
+│       ├── parsnp.xmfa
+│       └── REFERENCE.contigs.fa.ref
+├── pipeline_info
+├── quast
+│   ├── quast_results.tsv
+│   ├── SAMPLE1.quast.report.tsv
+│   └── SAMPLE1.transposed.quast.report.tsv
+├── rejected
+│   └── GAS_empty_samples.csv
+├── remove
+│   └── cleaned_parsnp.snps.mblocks
+├── shovill
+│   ├── SAMPLE1.contigs.fa
+│   ├── SAMPLE1.sam
+│   ├── SAMPLE1
+│   │   ├── shovill.corrections
+│   │   ├── shovill.log
+│   │   └── skesa.fasta
+├── ska
+│   └── ska_alignment.aln.treefile
+├── ska2
+│   ├── logs
+│   │   └── APHL_GAS:GAS:EMM_MLST:SKA2
+│   │       └── ska.log
+│   └── ska
+│       ├── ska_alignment.aln
+│       └── ska_index.skf
+└── snpdists
+    └── snp_dists_matrix.tsv
+```
 > [!WARNING]
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
 
 ## Credits
-
-APHL/gas was originally written by Eva Gunawan, April Estrada.
+APHL_InfectiousDisease/gas was originally written by Eva Gunawan, April Estrada., and Erin Young
 
 We thank the following people for their extensive assistance in the development of this pipeline:
-
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
+APHL Hackathon 2026
+Matthew Geniza
+Michael Ige
+Nick Rhoades
 
 ## Contributions and Support
 
